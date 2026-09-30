@@ -1,6 +1,7 @@
 # IDE & Operating System Files
 .idea/
 .vscode/
+.settings/
 *.swp
 *.swo
 .DS_Store

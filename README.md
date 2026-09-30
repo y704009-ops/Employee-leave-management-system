@@ -14,6 +14,15 @@ full stack java/
 ├── .gitignore                     # Git ignore rules
 ├── .env.example                   # Master environment template
 │
+├── docs/                          # Product specification, design documents & PRD
+│   ├── DESIGN.md                  # System design specifications
+│   ├── ELMS_Anti_Gravity_Master_Project_Spec-3.md # Master project spec
+│   ├── ELMS_PRD.pdf               # Product Requirement Document (PRD)
+│   └── assets/                    # Documentation screenshots & diagrams
+│
+├── assets/                        # Project media assets
+│   └── legacy-3d/                 # Archived 3D models & legacy assets
+│
 ├── database/                      # MySQL 8.x Relational DDL & Seed Scripts
 │   ├── schema.sql                 # Complete DDL with FK constraints, unique keys, and indexes
 │   └── seed.sql                   # Baseline development seed data
@@ -40,7 +49,7 @@ full stack java/
 │       │   ├── application.yml    # Master configuration (defaults to demo profile)
 │       │   ├── application-demo.yml # In-memory H2 MySQL compatibility profile (zero-install)
 │       │   └── application-dev.yml  # MySQL 8.x production/dev profile
-│       └── test/java/com/elms/    # Comprehensive Spring Boot Integration Test Suite (51 tests)
+│       └── test/java/com/elms/    # Comprehensive Spring Boot Integration Test Suite (56 tests)
 │
 └── frontend/                      # Vite + React 18 SPA (Tailwind CSS v4)
     ├── package.json
@@ -53,14 +62,14 @@ full stack java/
         ├── hooks/                 # Custom responsive hooks & notification hooks
         ├── layouts/               # AppLayout application shell with Sidebar & Header
         ├── pages/
-        │   ├── auth/              # LoginPage with demo credentials helper
+        │   ├── auth/              # LoginPage with secure credential handling
         │   ├── employee/          # Dashboard, Apply Leave, My Leaves, Leave Details, Profile
         │   ├── manager/           # Manager Dashboard, Approval Queue, Team Calendar, Team History
         │   ├── admin/             # Admin Dashboard, Employees, Departments, Leave Types, Balances, Reports
         │   └── common/            # 403 Forbidden & 404 Not Found error pages
         ├── routes/                # ProtectedRoute & RoleRoute role-based routing guards
         ├── services/              # API abstraction services (auth, leave, employee, admin, reports)
-        └── test/                  # Frontend test suites (20 tests covering RBAC, forms, workflows)
+        └── test/                  # Frontend test suites (65 tests covering RBAC, forms, workflows)
 ```
 
 ---
