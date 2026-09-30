@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }
+@keyframes kenburns {
+  0% { transform: scale(1.0) translate(0, 0); }
+  50% { transform: scale(1.06) translate(-1%, -0.5%); }
+  100% { transform: scale(1.0) translate(0, 0); }
+}
+.ken-burns-bg {
+  animation: kenburns 30s ease-in-out infinite alternate;
+  will-change: transform;
+}
+</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-highest": "#d3e4fe", "on-primary-fixed-variant": "#173bab", "surface-bright": "#f8f9ff", "on-background": "#0b1c30", "on-primary-container": "#a8b8ff", "inverse-surface": "#213145", "primary-fixed-dim": "#b8c4ff", "surface": "#f8f9ff", "tertiary-fixed": "#dae2fd", "tertiary-fixed-dim": "#bec6e0", "secondary-container": "#5bb8fe", "on-error-container": "#93000a", "tertiary": "#2d3449", "primary-fixed": "#dde1ff", "primary": "#00288e", "inverse-primary": "#b8c4ff", "on-secondary-fixed": "#001d31", "secondary": "#006398", "background": "#f8f9ff", "secondary-fixed-dim": "#93ccff", "surface-tint": "#3755c3", "on-tertiary-fixed": "#131b2e", "tertiary-container": "#434b60", "outline-variant": "#c4c5d5", "surface-container-lowest": "#ffffff", "surface-container-high": "#dce9ff", "surface-dim": "#cbdbf5", "on-secondary": "#ffffff", "secondary-fixed": "#cce5ff", "on-tertiary-container": "#b4bbd5", "on-secondary-container": "#00476e", "on-tertiary-fixed-variant": "#3f465c", "error-container": "#ffdad6", "surface-variant": "#d3e4fe", "on-tertiary": "#ffffff", "primary-container": "#1e40af", "on-primary-fixed": "#001453", "inverse-on-surface": "#eaf1ff", "on-error": "#ffffff", "outline": "#757684", "on-surface-variant": "#444653", "on-surface": "#0b1c30", "on-primary": "#ffffff", "surface-container-low": "#eff4ff", "error": "#ba1a1a", "on-secondary-fixed-variant": "#004b73", "surface-container": "#e5eeff" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter-mobile": "0.75rem", "space-md": "0.75rem", "gutter": "1rem", "margin": "1.5rem", "space-lg": "1.25rem", "space-xl": "2rem", "margin-mobile": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem" }, "fontFamily": { "headline-xl": [ "Inter" ], "headline-sm": [ "Inter" ], "data-mono": [ "JetBrains Mono" ], "label-lg": [ "Inter" ], "headline-xl-mobile": [ "Inter" ], "body-sm": [ "Inter" ], "headline-lg": [ "Inter" ], "headline-md": [ "Inter" ], "label-sm": [ "Inter" ], "label-md": [ "Inter" ], "body-md": [ "Inter" ], "body-lg": [ "Inter" ] }, "fontSize": { "headline-xl": [ "30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "headline-sm": [ "15px", { "lineHeight": "22px", "fontWeight": "600" } ], "data-mono": [ "12px", { "lineHeight": "16px", "fontWeight": "500" } ], "label-lg": [ "13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" } ], "headline-xl-mobile": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" } ], "body-sm": [ "12px", { "lineHeight": "18px", "fontWeight": "400" } ], "headline-lg": [ "22px", { "lineHeight": "30px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "headline-md": [ "18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "label-sm": [ "11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "label-md": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.015em", "fontWeight": "600" } ], "body-md": [ "13px", { "lineHeight": "20px", "fontWeight": "400" } ], "body-lg": [ "15px", { "lineHeight": "24px", "fontWeight": "400" } ] } } } };</script></head><body class="bg-surface font-body-md text-body-md text-on-surface min-h-screen flex flex-col antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-outline-variant/30"><div class="h-16 w-full max-w-[1440px] mx-auto px-margin flex items-center justify-between"><div class="flex items-center gap-space-md"><div class="w-9 h-9 rounded bg-primary-container flex items-center justify-center"><span class="font-label-lg text-label-lg text-on-primary tracking-wider font-bold">E</span></div><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">ELMS</span><span class="px-1.5 py-0.5 rounded bg-surface-container font-data-mono text-data-mono text-on-surface-variant">v2.4</span></div><span class="font-label-sm text-label-sm text-on-surface-variant font-normal leading-none hidden sm:block">Employee Leave Management System</span></div></div><div class="flex items-center gap-space-xl"><nav class="hidden md:flex items-center gap-space-lg" data-active-classes="text-primary font-semibold border-b-2 border-primary"><a class="text-on-surface-variant hover:text-on-surface transition-colors py-space-sm font-label-lg text-label-lg" data-path="home" href="#">Home</a><a class="text-on-surface-variant hover:text-on-surface transition-colors py-space-sm font-label-lg text-label-lg" data-path="features" href="#">Features</a><a class="text-on-surface-variant hover:text-on-surface transition-colors py-space-sm font-label-lg text-label-lg" data-path="how-it-works" href="#">How It Works</a></nav><div class="flex items-center gap-space-md"><a class="inline-flex items-center justify-center h-9 px-space-lg bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg rounded transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" data-path="login" href="#">Sign In</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="flex-1 w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<!-- HERO SECTION -->
+<section class="relative w-full min-h-[720px] lg:h-[860px] overflow-hidden flex items-center bg-slate-950">
+<!-- Cinematic Hero Background with Subtle Ken Burns Effect -->
+<div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+<img alt="SkillMate Corporate Headquarters, Executives, and Plaza" class="w-full h-full object-cover object-center ken-burns-bg scale-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdMauoqGNrRpiTcaiyOWWYHeZu0l0e3hyJySRxVsxyuRg4XKiVMqy_yKu-jM2VSF6LDVKiUcPXJ0sXgVQoiP_vWmkfImak0zYGmHAIruOEkLHQOlyUApGuJsLDwNX0RxztaGrk2aEoPkl3Sj1eMyOgUJeaJywWFCPZuu60TOn9wd7cRLntb713ngNcEXkdB1Kxf-4C9Bug_6xeg1rBN2-Vg4kgUQmro67yBiCF_gDKb9wPfd5x4s_YMA"/>
+</div>
+<!-- Sophisticated Multi-stop Gradient Overlays for Supreme Readability -->
+<div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-900/40 pointer-events-none"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none h-56 bottom-0 top-auto"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-transparent pointer-events-none h-32"></div>
+<div class="relative z-10 w-full max-w-[1440px] mx-auto px-margin py-space-xl flex flex-col justify-between h-full">
+<div class="max-w-2xl pt-space-lg lg:pt-space-xl">
+<!-- Eyebrow Badge -->
+<div class="inline-flex items-center gap-space-xs px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 shadow-sm mb-space-lg">
+<span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+<span class="font-data-mono text-data-mono text-blue-200 font-semibold tracking-wider uppercase">SKILLMATE ENTERPRISE LEAVE MANAGEMENT SYSTEM</span>
+<span class="font-data-mono text-data-mono text-slate-400 font-normal">| CORP-NET v2.4</span>
+</div>
+<!-- Main Headline -->
+<h1 class="font-headline-xl text-headline-xl text-white tracking-tight font-bold mb-space-sm sm:text-[46px] sm:leading-[54px] drop-shadow-sm">
+          Work. Manage. Grow.
+        </h1>
+<!-- Supporting Text -->
+<p class="font-body-lg text-body-lg text-slate-200 max-w-xl mb-space-xl leading-relaxed drop-shadow-sm">
+          Employee leave management, simplified for modern workplaces. High-assurance statutory balancing, structured approval flows, and continuous payroll ledger synchronization.
+        </p>
+<!-- CTA Cluster -->
+<div class="flex flex-wrap items-center gap-space-md mb-space-xl">
+<a class="inline-flex items-center justify-center h-11 px-6 bg-primary-container hover:bg-blue-600 text-white font-label-lg text-label-lg rounded shadow-lg shadow-blue-900/40 transition-all focus:outline-none ring-1 ring-blue-400/30" href="#">
+            Sign In with SSO
+            <span class="material-symbols-outlined ml-2 text-[18px]">arrow_forward</span>
+</a>
+<a class="inline-flex items-center justify-center h-11 px-6 bg-white/10 hover:bg-white/20 text-white font-label-lg text-label-lg rounded backdrop-blur-md border border-white/25 shadow-sm transition-all focus:outline-none" href="#capabilities">
+<span class="material-symbols-outlined mr-2 text-[18px] text-blue-300">explore</span>
+            Explore ELMS
+          </a>
+</div>
+<!-- Trust & Governance Pill -->
+<div class="inline-flex flex-wrap items-center gap-y-1 gap-x-space-md px-4 py-2.5 rounded-lg bg-slate-900/80 backdrop-blur-md border border-white/10 shadow-md">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-blue-400">verified_user</span>
+<span class="font-label-sm text-label-sm text-white font-semibold">SOC 2 Type II Certified</span>
+</div>
+<span class="text-slate-600 font-data-mono text-[10px] hidden sm:inline">•</span>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-sky-400">vpn_key</span>
+<span class="font-label-sm text-label-sm text-slate-300">Enterprise Single Sign-On (SSO)</span>
+</div>
+<span class="text-slate-600 font-data-mono text-[10px] hidden sm:inline">•</span>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-indigo-300">policy</span>
+<span class="font-label-sm text-label-sm text-slate-300">Multi-entity Global Compliance</span>
+</div>
+</div>
+</div>
+<!-- Architectural Context Meta Tag -->
+<div class="pt-space-xl flex items-center justify-between text-slate-300">
+<div class="flex items-center gap-space-xs bg-slate-900/80 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-blue-400">domain</span>
+<span class="font-data-mono text-data-mono text-slate-200">SkillMate Global Headquarters — Innovation Campus 01</span>
+</div>
+<div class="hidden sm:flex items-center gap-space-sm font-data-mono text-data-mono text-slate-400 bg-slate-900/60 backdrop-blur-md px-3 py-1.5 rounded border border-white/10">
+<span>LAT: 37.7749° N</span>
+<span>•</span>
+<span class="text-emerald-400 font-semibold">SEC: HIGH-TIER AUDITED</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ARCHITECTURAL TRUST & PERFORMANCE METRICS -->
+<section class="w-full bg-surface-container-lowest py-space-xl shadow-sm relative z-20 border-b border-outline-variant/20">
+<div class="w-full max-w-[1440px] mx-auto px-margin">
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-space-lg">
+<!-- Stat 1 -->
+<div class="flex flex-col p-space-md rounded bg-surface-container-low shadow-sm">
+<span class="font-data-mono text-data-mono text-primary font-semibold uppercase mb-1">UPTIME SLA</span>
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tight">99.98%</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">High-availability redundant nodes</span>
+</div>
+<!-- Stat 2 -->
+<div class="flex flex-col p-space-md rounded bg-surface-container-low shadow-sm">
+<span class="font-data-mono text-data-mono text-secondary font-semibold uppercase mb-1">AUTOMATION</span>
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tight">Zero Manual</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Payroll reconciliation overhead</span>
+</div>
+<!-- Stat 3 -->
+<div class="flex flex-col p-space-md rounded bg-surface-container-low shadow-sm">
+<span class="font-data-mono text-data-mono text-tertiary font-semibold uppercase mb-1">JURISDICTION RULES</span>
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tight">42 Regions</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Statutory leave legal coverage</span>
+</div>
+<!-- Stat 4 -->
+<div class="flex flex-col p-space-md rounded bg-surface-container-low shadow-sm">
+<span class="font-data-mono text-data-mono text-primary-container font-semibold uppercase mb-1">VOLUME AUDITED</span>
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tight">1.8M+ Hrs</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Leave requests verified &amp; settled</span>
+</div>
+</div>
+</div>
+</section>
+<!-- PRODUCT CAPABILITIES SECTION -->
+<section class="w-full py-space-xl bg-surface relative" id="capabilities">
+<div class="w-full max-w-[1440px] mx-auto px-margin">
+<!-- Section Header -->
+<div class="max-w-3xl mb-space-xl">
+<div class="inline-flex items-center gap-space-xs font-data-mono text-data-mono text-primary uppercase font-bold tracking-widest mb-space-xs">
+<span class="material-symbols-outlined text-[16px]">view_quilt</span>
+<span>CAPABILITIES &amp; GOVERNANCE</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight mb-space-sm sm:text-headline-xl">
+          Everything your workforce needs, in one place.
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Designed by enterprise HR architects for seamless self-service, streamlined multi-level approvals, and strictly enforced global policy compliance.
+        </p>
+</div>
+<!-- 3x2 Modular High-Craft Card Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg">
+<!-- Capability 1: Employee Leave Requests -->
+<div class="flex flex-col justify-between p-space-lg rounded bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div>
+<div class="w-10 h-10 rounded bg-primary-container/10 flex items-center justify-center text-primary-container mb-space-md">
+<span class="material-symbols-outlined text-[22px]">calendar_add_on</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mb-space-xs">Employee Leave Requests</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              Fast intuitive submission with real-time statutory deductions, conflict detection, and native Google/Outlook calendar synchronization.
+            </p>
+</div>
+<!-- Micro-ledger Preview -->
+<div class="mt-space-md p-space-sm rounded bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between pb-1 mb-2">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">New Request Draft</span>
+<span class="font-data-mono text-[10px] text-primary bg-primary-fixed px-1.5 py-0.5 rounded font-bold uppercase">NO CONFLICT</span>
+</div>
+<div class="space-y-1 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex justify-between items-center text-[11px]">
+<span>Type: Annual Rest &amp; Recovery</span>
+<span class="font-data-mono font-medium text-on-surface">3.0 Days</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded overflow-hidden">
+<div class="bg-primary h-full w-2/3"></div>
+</div>
+<span class="font-data-mono text-[10px] text-outline">Balance after request: 14.5 Days</span>
+</div>
+</div>
+</div>
+<!-- Capability 2: Manager Approvals -->
+<div class="flex flex-col justify-between p-space-lg rounded bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div>
+<div class="w-10 h-10 rounded bg-secondary-fixed flex items-center justify-center text-secondary mb-space-md">
+<span class="material-symbols-outlined text-[22px]">fact_check</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mb-space-xs">Manager Approvals</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              Consolidated team approval desk featuring critical timeline overlaps, minimum peer staffing guarantees, and automated delegation.
+            </p>
+</div>
+<!-- Micro-widget: Approval Overlap Check -->
+<div class="mt-space-md p-space-sm rounded bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between text-[11px] mb-1.5">
+<span class="font-label-sm text-label-sm text-on-surface font-medium">Core Eng Coverage</span>
+<span class="font-data-mono text-[10px] text-on-secondary-fixed bg-secondary-fixed px-1.5 py-0.2 rounded font-bold">84% CAPACITY</span>
+</div>
+<div class="flex items-center gap-1.5 py-1">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-[10px] font-bold">MK</div>
+<div class="w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-[10px] font-bold">AL</div>
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center text-[10px] font-bold">+5</div>
+<span class="font-data-mono text-[11px] text-on-surface-variant ml-auto">Ready for batch-sign</span>
+</div>
+</div>
+</div>
+<!-- Capability 3: Leave Balance Tracking -->
+<div class="flex flex-col justify-between p-space-lg rounded bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div>
+<div class="w-10 h-10 rounded bg-tertiary-fixed flex items-center justify-center text-tertiary mb-space-md">
+<span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mb-space-xs">Leave Balance Tracking</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              Transparent accrual ledgers, multi-tier rollover carryover limits, and projected balance calculations up to 12 months ahead.
+            </p>
+</div>
+<!-- Micro-widget: Ledger Balance Progress -->
+<div class="mt-space-md p-space-sm rounded bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface">Annual Balance</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary">18.5 <span class="font-body-sm text-[11px] font-normal text-on-surface-variant">Days Avail</span></span>
+</div>
+<div class="grid grid-cols-3 gap-1 h-1.5 w-full bg-surface-container-high rounded overflow-hidden">
+<div class="bg-outline-variant" title="Taken: 4"></div>
+<div class="bg-secondary-container" title="Pending: 1.5"></div>
+<div class="bg-primary-container" title="Remaining: 18.5"></div>
+</div>
+<div class="flex justify-between items-center text-[10px] font-data-mono text-outline mt-1.5">
+<span>Taken: 4.0</span>
+<span>Pending: 1.5</span>
+<span>Rollover: 5.0</span>
+</div>
+</div>
+</div>
+<!-- Capability 4: Leave Policies -->
+<div class="flex flex-col justify-between p-space-lg rounded bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div>
+<div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center text-primary mb-space-md">
+<span class="material-symbols-outlined text-[22px]">gavel</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mb-space-xs">Leave Policies</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              Granular legal rules, statutory maternity/paternity frameworks, emergency bereavement, and custom tenure-tier allocations.
+            </p>
+</div>
+<!-- Micro-widget: Policy Rule Pill Set -->
+<div class="mt-space-md p-space-sm rounded bg-surface-container-low shadow-sm space-y-1.5">
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-on-surface font-medium">Jurisdiction: EU-West (DE)</span>
+<span class="font-data-mono text-[10px] text-primary">COMPLIANT</span>
+</div>
+<div class="flex flex-wrap gap-1 text-[11px]">
+<span class="px-1.5 py-0.5 rounded bg-surface-container-highest font-data-mono text-on-surface-variant text-[10px]">Min. 20 Days</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-highest font-data-mono text-on-surface-variant text-[10px]">Sick Certificate: D+3</span>
+</div>
+</div>
+</div>
+<!-- Capability 5: Employee Management -->
+<div class="flex flex-col justify-between p-space-lg rounded bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div>
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center text-on-surface mb-space-md">
+<span class="material-symbols-outlined text-[22px]">corporate_fare</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mb-space-xs">Employee Management</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              Departmental reporting structures, synchronized cross-office schedules, and deep Workday/BambooHR directory integration.
+            </p>
+</div>
+<!-- Micro-widget: Sync Indicator -->
+<div class="mt-space-md p-space-sm rounded bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between text-[11px] mb-1">
+<span class="font-label-sm text-label-sm text-on-surface">Directory Sync</span>
+<span class="font-data-mono text-[10px] text-secondary">ACTIVE POLLING</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant text-[11px]">
+<span class="material-symbols-outlined text-[14px] text-primary">sync</span>
+<span class="font-data-mono text-[11px]">3,420 Active Employees Bound</span>
+</div>
+</div>
+</div>
+<!-- Capability 6: Reports & Visibility -->
+<div class="flex flex-col justify-between p-space-lg rounded bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div>
+<div class="w-10 h-10 rounded bg-primary-fixed flex items-center justify-center text-primary-container mb-space-md">
+<span class="material-symbols-outlined text-[22px]">query_stats</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mb-space-xs">Reports &amp; Visibility</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              Executive absence planning, departmental utilization analytics, and one-click ISO-compliant payroll export journals.
+            </p>
+</div>
+<!-- Micro-widget: Mini Bar Sparkline -->
+<div class="mt-space-md p-space-sm rounded bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between text-[11px] mb-2">
+<span class="font-label-sm text-label-sm text-on-surface font-medium">Q3 Utilization Trajectory</span>
+<span class="font-data-mono text-[10px] text-on-surface-variant">NORMAL</span>
+</div>
+<!-- Minimal SVG Chart -->
+<div class="h-6 w-full flex items-end gap-1">
+<div class="w-1/12 bg-primary/30 h-2 rounded-t"></div>
+<div class="w-1/12 bg-primary/40 h-3 rounded-t"></div>
+<div class="w-1/12 bg-primary/30 h-2.5 rounded-t"></div>
+<div class="w-1/12 bg-primary/50 h-4 rounded-t"></div>
+<div class="w-1/12 bg-primary/70 h-5 rounded-t"></div>
+<div class="w-1/12 bg-primary h-6 rounded-t"></div>
+<div class="w-1/12 bg-primary/80 h-5.5 rounded-t"></div>
+<div class="w-1/12 bg-primary/60 h-4 rounded-t"></div>
+<div class="w-1/12 bg-primary/40 h-3 rounded-t"></div>
+<div class="w-1/12 bg-primary/30 h-2.5 rounded-t"></div>
+<div class="w-1/12 bg-primary/20 h-2 rounded-t"></div>
+<div class="w-1/12 bg-primary/30 h-2.5 rounded-t"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3-STEP PROCEDURAL WORKFLOW -->
+<section class="w-full py-space-xl bg-surface-container-low relative">
+<div class="w-full max-w-[1440px] mx-auto px-margin">
+<div class="max-w-2xl mb-space-xl">
+<div class="font-data-mono text-data-mono text-primary font-bold uppercase tracking-wider mb-space-xs">STANDARDIZED EXECUTION</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+          Clear, audited process from application to payroll sync.
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+          Eliminate ambiguity and undocumented leaves with immutable ledger transitions.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Step 01 -->
+<div class="p-space-lg rounded bg-surface-container-lowest shadow-sm relative flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="font-data-mono text-headline-lg font-bold text-outline-variant">01</span>
+<span class="material-symbols-outlined text-primary text-[24px]">edit_calendar</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mb-space-xs">Plan &amp; Apply</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md leading-relaxed">
+              Employee selects dates on interactive balance visualizer. The system checks statutory quota, minimum blackout windows, and automatic handover assignments.
+            </p>
+</div>
+<div class="p-space-sm rounded bg-surface-container font-data-mono text-[11px] text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[15px] text-primary">check_circle</span>
+<span>Pre-validation passed in &lt;100ms</span>
+</div>
+</div>
+<!-- Step 02 -->
+<div class="p-space-lg rounded bg-surface-container-lowest shadow-sm relative flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="font-data-mono text-headline-lg font-bold text-outline-variant">02</span>
+<span class="material-symbols-outlined text-secondary text-[24px]">approval_delegation</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mb-space-xs">Multi-Tier Review</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md leading-relaxed">
+              Assigned line manager reviews the request alongside concurrent team heatmaps. Escalate automatically if not reviewed within 48 operational hours.
+            </p>
+</div>
+<div class="p-space-sm rounded bg-surface-container font-data-mono text-[11px] text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[15px] text-secondary">schedule</span>
+<span>Avg approval time: 4.2 Hours</span>
+</div>
+</div>
+<!-- Step 03 -->
+<div class="p-space-lg rounded bg-surface-container-lowest shadow-sm relative flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="font-data-mono text-headline-lg font-bold text-outline-variant">03</span>
+<span class="material-symbols-outlined text-tertiary-container text-[24px]">sync_alt</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mb-space-xs">Record &amp; Reconcile</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md leading-relaxed">
+              Approved hours immediately update personal quota pools and propagate via webhook into enterprise payroll engines with zero manual spreadsheet entry.
+            </p>
+</div>
+<div class="p-space-sm rounded bg-surface-container font-data-mono text-[11px] text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[15px] text-primary-container">lock_person</span>
+<span>Immutable audit transaction logged</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ROLE-BASED ACCESS CONSOLES -->
+<section class="w-full py-space-xl bg-surface">
+<div class="w-full max-w-[1440px] mx-auto px-margin">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-xl">
+<div class="max-w-xl">
+<div class="font-data-mono text-data-mono text-primary font-bold uppercase tracking-wider mb-space-xs">SECURITY ARCHITECTURE</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+            Role-Based Access Consoles
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+            Segmented operational workspaces designed for granular data isolation and compliance governance.
+          </p>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant mt-2 md:mt-0">RBAC STANDARD: ISO 27001</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Role 1: Employee -->
+<div class="p-space-lg rounded bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-space-sm mb-space-md">
+<span class="material-symbols-outlined text-primary text-[20px]">person</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Employee Console</h3>
+</div>
+<ul class="space-y-space-sm font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary mt-0.5">check</span>
+<span>Self-service real-time leave entitlement balances</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary mt-0.5">check</span>
+<span>Self-cancellation and amendment workflows</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary mt-0.5">check</span>
+<span>Medical documentation and sick-note upload portal</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary mt-0.5">check</span>
+<span>Personal calendar sync (.ics feed / Google integration)</span>
+</li>
+</ul>
+</div>
+<div class="pt-space-md bg-surface-container-low p-space-sm rounded">
+<span class="font-data-mono text-[10px] text-outline uppercase block mb-1">Access Level</span>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Self-Record Isolated (Tenant Bound)</span>
+</div>
+</div>
+<!-- Role 2: Manager -->
+<div class="p-space-lg rounded bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-space-sm mb-space-md">
+<span class="material-symbols-outlined text-secondary text-[20px]">groups</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Manager Console</h3>
+</div>
+<ul class="space-y-space-sm font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">check</span>
+<span>Team absence overlap calendar with quorum alarms</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">check</span>
+<span>One-click batch approval / rejection with audit notes</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">check</span>
+<span>Delegation rule activation during manager vacation</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">check</span>
+<span>Subordinate historical utilization trends</span>
+</li>
+</ul>
+</div>
+<div class="pt-space-md bg-surface-container-low p-space-sm rounded">
+<span class="font-data-mono text-[10px] text-outline uppercase block mb-1">Access Level</span>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Departmental / Sub-Tree Hierarchy</span>
+</div>
+</div>
+<!-- Role 3: Administrator -->
+<div class="p-space-lg rounded bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-space-sm mb-space-md">
+<span class="material-symbols-outlined text-tertiary text-[20px]">shield</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Administrator &amp; HR</h3>
+</div>
+<ul class="space-y-space-sm font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary mt-0.5">check</span>
+<span>Global statutory policy rule engine &amp; holiday builder</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary mt-0.5">check</span>
+<span>Annual carryover limits and accrual recalculation</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary mt-0.5">check</span>
+<span>Payroll API export reconciliation (ADP, Workday, SAP)</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary mt-0.5">check</span>
+<span>Tamper-evident system activity and compliance logs</span>
+</li>
+</ul>
+</div>
+<div class="pt-space-md bg-surface-container-low p-space-sm rounded">
+<span class="font-data-mono text-[10px] text-outline uppercase block mb-1">Access Level</span>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Global Enterprise Administrator</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FINAL RESTRAINED CORPORATE CTA -->
+<section class="w-full bg-surface-container-lowest py-space-xl shadow-sm relative">
+<div class="w-full max-w-[1440px] mx-auto px-margin">
+<div class="p-space-xl rounded bg-surface-container-low flex flex-col lg:flex-row lg:items-center lg:justify-between gap-space-xl">
+<div class="max-w-2xl">
+<div class="font-data-mono text-data-mono text-primary font-semibold uppercase mb-space-xs">
+            SKILLMATE CORPORATE NETWORK
+          </div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight mb-space-sm">
+            One centralized platform for modern workforce governance.
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Access your company's official ELMS environment through Enterprise Single Sign-On. Zero deployment overhead for verified entities.
+          </p>
+</div>
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-md flex-shrink-0">
+<a class="inline-flex items-center justify-center h-10 px-space-xl bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg rounded shadow-sm transition-all focus:outline-none" href="#">
+<span class="material-symbols-outlined mr-2 text-[18px]">lock</span>
+            Access SkillMate Portal
+          </a>
+<a class="inline-flex items-center justify-center h-10 px-space-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-lg text-label-lg rounded shadow-sm transition-all focus:outline-none" href="#">
+            Documentation &amp; SLA
+          </a>
+</div>
+</div>
+</div>
+</section>
+</div></main><footer class="w-full bg-surface-container-lowest border-t border-outline-variant/30 py-space-xl"><div class="w-full max-w-[1440px] mx-auto px-margin"><div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg pb-space-lg border-b border-outline-variant/20"><div class="flex items-center gap-space-md"><div class="w-7 h-7 rounded bg-primary-container flex items-center justify-center"><span class="font-label-sm text-label-sm text-on-primary font-bold">E</span></div><div class="flex flex-col"><span class="font-label-lg text-label-lg text-on-surface font-bold leading-none">ELMS</span><span class="font-body-sm text-body-sm text-on-surface-variant leading-none mt-1">Employee Leave Management System</span></div></div><div class="flex flex-wrap items-center gap-space-lg"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="home" href="#">Home</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="features" href="#">Features</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="documentation" href="#">Documentation</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="help-desk" href="#">Help Desk</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="security" href="#">Security</a></div></div><div class="pt-space-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm text-on-surface-variant"><p class="font-body-sm text-body-sm">© 2025 ELMS Corporate Systems. All internal rights reserved.</p><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[14px] text-on-surface-variant">lock</span><p class="font-body-sm text-body-sm">Restricted Internal Corporate Network. Authorized personnel only.</p></div></div></div></footer>
+</body></html>
