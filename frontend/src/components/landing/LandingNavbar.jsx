@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, getDashboardForRole } from '../../context/AuthContext';
-import { User, ArrowRight, Menu, X, Shield, Lock, Search } from 'lucide-react';
+import { User, ArrowRight, Menu, X, Shield, Lock, Command } from 'lucide-react';
 
 const LandingNavbar = ({ onOpenCommandPalette }) => {
   const { isAuthenticated, user } = useAuth();
@@ -105,18 +105,31 @@ const LandingNavbar = ({ onOpenCommandPalette }) => {
 
         {/* Primary Action Controls */}
         <div className="flex items-center gap-2.5">
-          {/* Quick Search Command Palette Trigger */}
+          {/* Visible Command Center Trigger (Desktop) */}
           <button
             type="button"
             onClick={onOpenCommandPalette}
-            className="hidden md:inline-flex items-center gap-2 h-9 px-3 rounded-lg bg-slate-100 hover:bg-slate-200/80 text-slate-600 hover:text-slate-900 border border-slate-200/80 text-xs font-medium transition-colors cursor-pointer"
-            title="Open Command Palette (Ctrl+K)"
+            className="hidden md:inline-flex items-center gap-2 h-9 px-3 rounded-lg bg-slate-100 hover:bg-slate-200/80 text-slate-700 hover:text-slate-900 border border-slate-200/90 text-xs font-medium transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 shadow-2xs"
+            title="Open Command Center (Ctrl+K / Cmd+K)"
+            aria-label="Open Command Center"
           >
-            <Search className="w-3.5 h-3.5 text-slate-500" />
-            <span className="text-[11px] text-slate-500">Search</span>
-            <kbd className="font-mono text-[9px] font-semibold bg-white border border-slate-200/80 px-1.5 py-0.5 rounded text-slate-400">
-              ⌘K
+            <Command className="w-3.5 h-3.5 text-slate-600" />
+            <span className="text-[11px] font-medium text-slate-700">Command Center</span>
+            <kbd className="font-mono text-[9px] font-bold bg-white border border-slate-200 px-1.5 py-0.5 rounded text-slate-500 shadow-2xs">
+              CTRL K
             </kbd>
+          </button>
+
+          {/* Visible Quick Actions Trigger (Mobile) */}
+          <button
+            type="button"
+            onClick={onOpenCommandPalette}
+            className="inline-flex md:hidden items-center gap-1.5 h-8 px-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium border border-slate-200/80 transition-colors cursor-pointer"
+            title="Quick Actions"
+            aria-label="Quick Actions"
+          >
+            <Command className="w-3.5 h-3.5 text-slate-600" />
+            <span className="text-[11px] font-medium">Quick Actions</span>
           </button>
 
           {isAuthenticated ? (
@@ -183,6 +196,21 @@ const LandingNavbar = ({ onOpenCommandPalette }) => {
           </nav>
 
           <div className="pt-4 flex flex-col gap-2.5">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenCommandPalette();
+              }}
+              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-medium border border-slate-200/90 transition-colors cursor-pointer"
+            >
+              <span className="flex items-center gap-2">
+                <Command className="w-4 h-4 text-brand-600" />
+                <span className="font-bold">Command Center</span>
+              </span>
+              <span className="font-mono text-[10px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 font-semibold">Quick Actions</span>
+            </button>
+
             {isAuthenticated ? (
               <button
                 onClick={() => {

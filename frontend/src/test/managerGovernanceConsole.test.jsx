@@ -4,8 +4,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect } from 'vitest';
 import RoleConsolesSection from '../components/landing/RoleConsolesSection';
 
-describe('Manager Team Governance Console Product Preview', () => {
-  it('renders the Manager Governance Console by default with live team data indicator', () => {
+describe('Manager Team Governance Console Hardened Security & Privacy Tests', () => {
+  it('renders the Manager Governance Console by default with generic demo data and read-only indicators', () => {
     render(
       <MemoryRouter>
         <RoleConsolesSection />
@@ -15,7 +15,8 @@ describe('Manager Team Governance Console Product Preview', () => {
     // Section Eyebrow and Role Tag
     expect(screen.getByText('MANAGER TEAM GOVERNANCE CONSOLE')).toBeInTheDocument();
     expect(screen.getByText('Team Absence Ledger & Approval Queue')).toBeInTheDocument();
-    expect(screen.getByText('LIVE TEAM DATA')).toBeInTheDocument();
+    expect(screen.getByText('DEMO DATA • READ-ONLY PREVIEW')).toBeInTheDocument();
+    expect(screen.getByText('DEMO DATA • NO REAL EMPLOYEE INFORMATION')).toBeInTheDocument();
 
     // KPI Cards
     expect(screen.getByText('CURRENT TEAM QUORUM')).toBeInTheDocument();
@@ -31,97 +32,50 @@ describe('Manager Team Governance Console Product Preview', () => {
     // Coverage indicator
     expect(screen.getByText('17 / 18 active')).toBeInTheDocument();
 
-    // Subordinates in queue
-    expect(screen.getByText('Sarah Chen')).toBeInTheDocument();
-    expect(screen.getByText('Marcus Vance')).toBeInTheDocument();
-    expect(screen.getByText('Elena Rostova')).toBeInTheDocument();
+    // Generic demo employee labels in queue (NO real PII)
+    expect(screen.getByText('Employee A')).toBeInTheDocument();
+    expect(screen.getByText('Employee B')).toBeInTheDocument();
+    expect(screen.getByText('Employee C')).toBeInTheDocument();
+
+    // Verify absence of real PII
+    expect(screen.queryByText('Sarah Chen')).not.toBeInTheDocument();
+    expect(screen.queryByText('Marcus Vance')).not.toBeInTheDocument();
+    expect(screen.queryByText('Elena Rostova')).not.toBeInTheDocument();
   });
 
-  it('opens governance review modal upon clicking Review on an action-required request', () => {
+  it('opens governance inspection modal and confirms strictly read-only presentation without approve/reject decision controls', () => {
     render(
       <MemoryRouter>
         <RoleConsolesSection />
       </MemoryRouter>
     );
 
-    const reviewButtons = screen.getAllByRole('button', { name: 'Review' });
-    fireEvent.click(reviewButtons[0]);
+    const inspectButtons = screen.getAllByRole('button', { name: 'Inspect Protocol' });
+    fireEvent.click(inspectButtons[0]);
 
     // Modal elements scoped within dialog
     const dialog = screen.getByRole('dialog');
     expect(dialog).toBeInTheDocument();
-    expect(within(dialog).getByText('REQUEST GOVERNANCE REVIEW')).toBeInTheDocument();
-    expect(within(dialog).getByText('Leave Approval Protocol')).toBeInTheDocument();
-    expect(within(dialog).getByText('Platform Engineering')).toBeInTheDocument();
-    expect(within(dialog).getByRole('button', { name: /approve request/i })).toBeInTheDocument();
-    expect(within(dialog).getByRole('button', { name: 'Reject' })).toBeInTheDocument();
+    expect(within(dialog).getByText('REQUEST GOVERNANCE PROTOCOL PREVIEW')).toBeInTheDocument();
+    expect(within(dialog).getByText('Leave Approval Protocol Inspection (Read-Only Demo)')).toBeInTheDocument();
+    expect(within(dialog).getByText('Employee A')).toBeInTheDocument();
+    expect(within(dialog).getByText('READ-ONLY DEMO • DECISION CONTROLS RESTRICTED')).toBeInTheDocument();
+    expect(within(dialog).getByText(/Approval and rejection authority is restricted to authenticated Line Managers/i)).toBeInTheDocument();
+
+    // STRICT PRIVACY & SECURITY CHECK: No approve or reject buttons exist!
+    expect(within(dialog).queryByRole('button', { name: /approve request/i })).not.toBeInTheDocument();
+    expect(within(dialog).queryByRole('button', { name: 'Reject' })).not.toBeInTheDocument();
+
+    // Only close preview button exists
+    const closeBtn = within(dialog).getByRole('button', { name: /close preview/i });
+    expect(closeBtn).toBeInTheDocument();
+
+    // Clicking close dismisses modal
+    fireEvent.click(closeBtn);
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it('simulates approval interaction and updates quorum and queue consistently', () => {
-    render(
-      <MemoryRouter>
-        <RoleConsolesSection />
-      </MemoryRouter>
-    );
-
-    // Open modal for Sarah Chen
-    const reviewButtons = screen.getAllByRole('button', { name: 'Review' });
-    fireEvent.click(reviewButtons[0]);
-
-    // Click Approve
-    const dialog = screen.getByRole('dialog');
-    const approveBtn = within(dialog).getByRole('button', { name: /approve request/i });
-    fireEvent.click(approveBtn);
-
-    // Confirmation banner appears
-    expect(screen.getByText('✓ REQUEST APPROVED')).toBeInTheDocument();
-    expect(screen.getByText(/Sarah Chen • Dec 24 → Dec 29/i)).toBeInTheDocument();
-
-    // Simulated quorum numbers update consistently: 16 of 18 staff active = 89% Safe
-    expect(screen.getByText('89% Safe')).toBeInTheDocument();
-    expect(screen.getByText('16 of 18 staff active')).toBeInTheDocument();
-    expect(screen.getByText('1 Request')).toBeInTheDocument();
-    expect(screen.getByText('2 Members')).toBeInTheDocument();
-    expect(screen.getByText('16 / 18 active')).toBeInTheDocument();
-
-    // Status badge for Sarah Chen becomes APPROVED
-    expect(screen.getAllByText('APPROVED').length).toBeGreaterThanOrEqual(2);
-  });
-
-  it('supports rejection workflow with audited reason', () => {
-    render(
-      <MemoryRouter>
-        <RoleConsolesSection />
-      </MemoryRouter>
-    );
-
-    // Open modal for Sarah Chen
-    const reviewButtons = screen.getAllByRole('button', { name: 'Review' });
-    fireEvent.click(reviewButtons[0]);
-
-    // Click Reject in modal
-    const dialog = screen.getByRole('dialog');
-    const rejectBtn = within(dialog).getByRole('button', { name: 'Reject' });
-    fireEvent.click(rejectBtn);
-
-    // Rejection confirmation dialog
-    const rejectDialog = screen.getByRole('dialog');
-    expect(within(rejectDialog).getByText('REJECT LEAVE REQUEST?')).toBeInTheDocument();
-    expect(within(rejectDialog).getByLabelText(/rejection reason/i)).toBeInTheDocument();
-
-    // Confirm rejection
-    const confirmRejectBtn = within(rejectDialog).getByRole('button', { name: /confirm rejection/i });
-    fireEvent.click(confirmRejectBtn);
-
-    // Confirmation message and state update
-    expect(screen.getByText('REQUEST REJECTED')).toBeInTheDocument();
-    expect(screen.getByText('1 Request')).toBeInTheDocument();
-    // Quorum remains safe at 94%
-    expect(screen.getByText('94% Safe')).toBeInTheDocument();
-    expect(screen.getByText('REJECTED')).toBeInTheDocument();
-  });
-
-  it('allows smooth switching to Employee and Admin consoles', () => {
+  it('allows smooth switching to Employee and Admin consoles with generic demo data', () => {
     render(
       <MemoryRouter>
         <RoleConsolesSection />
@@ -133,12 +87,15 @@ describe('Manager Team Governance Console Product Preview', () => {
     fireEvent.click(employeeTab);
     expect(screen.getByText('Employee Personal Leave & Quota Console')).toBeInTheDocument();
     expect(screen.getByText('Available Annual')).toBeInTheDocument();
+    expect(screen.getByText('Employee Self-Service (Demo Preview)')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Sign In to Apply' })).toBeInTheDocument();
 
     // Switch to Admin
     const adminTab = screen.getByRole('button', { name: 'ADMIN' });
     fireEvent.click(adminTab);
     expect(screen.getByText('Global Statutory Policy & Audit Management')).toBeInTheDocument();
-    expect(screen.getByText('Statutory Policies')).toBeInTheDocument();
+    expect(screen.getByText('Organization Overview (Demo Data)')).toBeInTheDocument();
+    expect(screen.getByText('250+ (DEMO)')).toBeInTheDocument();
 
     // Switch back to Manager
     const managerTab = screen.getByRole('button', { name: 'MANAGER' });
@@ -153,18 +110,11 @@ describe('Manager Team Governance Console Product Preview', () => {
       </MemoryRouter>
     );
 
-    // Open and approve
-    const reviewButtons = screen.getAllByRole('button', { name: 'Review' });
-    fireEvent.click(reviewButtons[0]);
-    const dialog = screen.getByRole('dialog');
-    fireEvent.click(within(dialog).getByRole('button', { name: /approve request/i }));
-    expect(screen.getByText('89% Safe')).toBeInTheDocument();
-
     // Click Reset Preview
     const resetBtn = screen.getByRole('button', { name: /reset preview/i });
     fireEvent.click(resetBtn);
 
-    // Values restored to initial
+    // Values remain safe and initial
     expect(screen.getByText('94% Safe')).toBeInTheDocument();
     expect(screen.getByText('2 Requests')).toBeInTheDocument();
     expect(screen.getByText('1 Member')).toBeInTheDocument();

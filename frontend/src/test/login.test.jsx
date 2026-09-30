@@ -36,13 +36,20 @@ describe('LoginPage Frontend Tests', () => {
     vi.clearAllMocks();
   });
 
-  it('renders login form with email, password, and submit controls', () => {
+  it('renders login form with email, password, and submit controls and NO demo access shortcuts', () => {
     renderLoginPage();
 
     expect(screen.getByText('ELMS Enterprise')).toBeInTheDocument();
     expect(screen.getByLabelText(/work email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /^sign in$/i })).toBeInTheDocument();
+
+    // Verify demo access / autofill shortcuts are completely removed
+    expect(screen.queryByText('DEMO ACCESS')).not.toBeInTheDocument();
+    expect(screen.queryByText('Click to populate')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /^admin$/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /^manager$/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /^employee$/i })).not.toBeInTheDocument();
   });
 
   it('validates empty inputs with inline validation messages', async () => {

@@ -1,15 +1,27 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, getDashboardForRole } from '../../context/AuthContext';
-import { Lock, Compass, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Lock, Compass, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
 import { useInView } from '../../hooks/useInView';
 
+/**
+ * Final CTA Section (Phase 7)
+ *
+ * Premium enterprise conversion section:
+ * - Eyebrow: READY TO WORK SMARTER?
+ * - Headline: "Bring your workforce operations into one connected system."
+ * - Supporting text: "Give employees a simpler way to manage leave, give managers clearer visibility, and give HR a reliable operational record."
+ * - Primary CTA: "Sign In to ELMS"
+ * - Secondary CTA: "Explore Product"
+ * - Trust Microcopy: "Role-based access • Centralized leave records • Auditable workflows"
+ * - Refined 2D enterprise visual communicating connected workforce operations.
+ */
 const CTASection = () => {
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const [sectionRef, isInView] = useInView({ threshold: 0.15, triggerOnce: true });
 
-  const handleAction = () => {
+  const handlePrimaryAction = () => {
     if (isAuthenticated && user?.role) {
       navigate(getDashboardForRole(user.role));
     } else {
@@ -17,95 +29,104 @@ const CTASection = () => {
     }
   };
 
+  const handleExploreProduct = (e) => {
+    e.preventDefault();
+    const el = document.querySelector('#product-experience') || document.querySelector('#roles');
+    if (el && typeof el.scrollIntoView === 'function') {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section ref={sectionRef} className="w-full bg-white py-16 sm:py-20 shadow-xs relative border-b border-slate-200/80 overflow-hidden">
+    <section
+      id="cta"
+      ref={sectionRef}
+      className="w-full bg-white py-16 sm:py-20 lg:py-24 relative border-b border-slate-200/80 overflow-hidden"
+    >
       {/* Subtle Background Architectural Depth */}
-      <div className="absolute inset-0 bg-enterprise-grid [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_65%,transparent_100%)] pointer-events-none opacity-40" />
+      <div className="absolute inset-0 bg-enterprise-grid [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_65%,transparent_100%)] pointer-events-none opacity-30" />
 
       {/* Centered Responsive Container with Protected Margins */}
       <div className="relative z-10 w-[calc(100%-32px)] sm:w-[calc(100%-48px)] max-w-[1280px] mx-auto">
         
         {/* Main Enterprise Conversion Block */}
-        <div className={`p-8 sm:p-12 lg:p-14 rounded-3xl bg-[#090d1a] text-white border border-slate-800 shadow-2xl relative overflow-hidden transition-all duration-700 ease-out ${
-          isInView ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-[0.98]'
-        }`}>
-          
-          {/* Subtle Ambient Light Sources with soft pulse */}
-          <div className="absolute top-0 right-0 w-[28rem] h-[28rem] bg-brand-900/30 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-sky-900/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute inset-0 bg-enterprise-dark-grid opacity-60 pointer-events-none" />
+        <div
+          className={`p-8 sm:p-12 lg:p-14 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-2xl relative overflow-hidden transition-all duration-700 ease-out ${
+            isInView ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-[0.99]'
+          }`}
+        >
+          {/* Subtle Ambient Light Sources */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-brand-600/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-sky-600/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute inset-0 bg-enterprise-dark-grid opacity-40 pointer-events-none" />
 
-          {/* Feature 11: System Journey Pipeline Conclusion Ribbon */}
-          <div className="relative z-10 mb-8 pb-4 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+          {/* Connected Operations Status Ribbon */}
+          <div className="relative z-10 mb-8 pb-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
             <div className="inline-flex items-center gap-2 text-sky-400 font-bold uppercase tracking-wider">
               <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
-              <span>06 / 06 • ENTERPRISE READY PIPELINE</span>
+              <span>CONNECTED WORKFORCE OPERATIONS</span>
             </div>
             
-            {/* Visual Process Lifecycle Pipeline: REQUEST -> REVIEW -> RECONCILE -> AUDIT -> READY */}
-            <div className="hidden md:flex items-center gap-2 text-[11px] text-slate-400">
-              <span className="text-slate-300 font-semibold">REQUEST</span>
+            {/* Visual Process Lifecycle Pipeline: REQUEST -> REVIEW -> RECONCILE -> AUDIT */}
+            <div className="hidden md:flex items-center gap-2 text-[11px] text-slate-400 font-mono">
+              <span className="text-slate-300 font-medium">EMPLOYEE INGRESS</span>
               <span className="text-slate-600">→</span>
-              <span className="text-slate-300 font-semibold">REVIEW</span>
+              <span className="text-slate-300 font-medium">MANAGER QUORUM</span>
               <span className="text-slate-600">→</span>
-              <span className="text-slate-300 font-semibold">RECONCILE</span>
+              <span className="text-slate-300 font-medium">POLICY AUDIT</span>
               <span className="text-slate-600">→</span>
-              <span className="text-slate-300 font-semibold">AUDIT</span>
-              <span className="text-slate-600">→</span>
-              <span className="text-emerald-400 font-bold flex items-center gap-1 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/60">
+              <span className="text-emerald-400 font-bold flex items-center gap-1.5 bg-emerald-950/80 px-2.5 py-0.5 rounded-md border border-emerald-800/60">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                SYSTEM READY
+                SYSTEM ACTIVE
               </span>
             </div>
           </div>
 
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
-            
             {/* Left Content */}
             <div className="max-w-2xl">
-              <h2 className="text-3xl sm:text-4xl lg:text-4xl font-extrabold text-white tracking-tight mb-4 uppercase">
-                Ready to run your workforce with more control?
+              <div className="inline-flex items-center gap-2 font-mono text-xs text-sky-400 font-bold uppercase tracking-wider mb-3">
+                <Sparkles className="w-3.5 h-3.5 text-sky-400" />
+                <span>READY TO WORK SMARTER?</span>
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight mb-4">
+                Bring your workforce operations into one connected system.
               </h2>
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
-                SkillMate brings leave management, approvals, governance and audit visibility into one workspace. Access the environment through Enterprise Single Sign-On.
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                Give employees a simpler way to manage leave, give managers clearer visibility, and give HR a reliable operational record.
               </p>
 
-              {/* Compliance Badges Row (Authentic Platform Guarantees) */}
-              <div className="mt-6 flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400">
-                <span className="flex items-center gap-1.5 text-slate-300">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 stroke-[2.5]" /> Role-Based Access Control
-                </span>
-                <span>•</span>
-                <span className="flex items-center gap-1.5 text-slate-300">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-sky-400 stroke-[2.5]" /> Encrypted JWT Session Auth
-                </span>
-                <span>•</span>
-                <span className="flex items-center gap-1.5 text-slate-300">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 stroke-[2.5]" /> Immutable Audit Trail
+              {/* Trust Microcopy (Descriptive Product Capabilities) */}
+              <div className="mt-6 flex items-center gap-2 text-xs font-mono text-slate-400">
+                <ShieldCheck className="w-4 h-4 text-sky-400 shrink-0" />
+                <span className="text-slate-300">
+                  Role-based access • Centralized leave records • Auditable workflows
                 </span>
               </div>
             </div>
 
-            {/* Right Action Cluster with Intentional Hierarchy */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 shrink-0">
+            {/* Right Action Cluster */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 shrink-0">
               <button
-                onClick={handleAction}
-                className="inline-flex items-center justify-center gap-2.5 h-12 px-7 bg-brand-700 hover:bg-brand-600 active:scale-[0.98] text-white text-sm font-semibold rounded-xl shadow-lg shadow-brand-950/70 hover:shadow-blue-500/25 ring-1 ring-sky-400/30 hover:ring-sky-400/60 transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 group"
+                type="button"
+                onClick={handlePrimaryAction}
+                className="inline-flex items-center justify-center gap-2.5 h-12 px-7 bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white text-sm font-semibold rounded-xl shadow-lg shadow-brand-950/50 hover:shadow-brand-500/25 transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 group"
               >
                 <Lock className="w-4 h-4 text-sky-200 group-hover:scale-105 transition-transform" />
-                <span>{isAuthenticated ? 'OPEN YOUR WORKSPACE' : 'ENTER SKILLMATE'}</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <span>Sign In to ELMS</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </button>
 
               <a
-                href="#demo"
-                className="inline-flex items-center justify-center gap-2 h-12 px-6 bg-white/10 hover:bg-white/20 active:bg-white/25 text-white text-sm font-semibold rounded-xl border border-white/20 hover:border-white/40 shadow-xs transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 group"
+                href="#product-experience"
+                onClick={handleExploreProduct}
+                className="inline-flex items-center justify-center gap-2 h-12 px-6 bg-white/10 hover:bg-white/20 active:bg-white/25 text-white text-sm font-semibold rounded-xl border border-white/20 hover:border-white/40 shadow-xs transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 cursor-pointer group"
               >
                 <Compass className="w-4 h-4 text-sky-300 group-hover:rotate-45 transition-transform duration-300" />
-                <span>EXPLORE THE PLATFORM</span>
+                <span>Explore Product</span>
               </a>
             </div>
-
           </div>
         </div>
 

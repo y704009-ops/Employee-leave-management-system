@@ -4,7 +4,6 @@ import {
   Lock,
   Mail,
   ArrowRight,
-  ShieldCheck,
   CheckCircle2,
   Shield,
   X,
@@ -28,14 +27,6 @@ const LoginPage = () => {
   const [fieldErrors, setFieldErrors] = useState({});
   const [submitError, setSubmitError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Quick fill demo credentials for evaluation convenience
-  const fillCredentials = (demoEmail, demoPassword) => {
-    setEmail(demoEmail);
-    setPassword(demoPassword);
-    setFieldErrors({});
-    setSubmitError(null);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -200,44 +191,6 @@ const LoginPage = () => {
               </Button>
             </div>
           </form>
-
-          {/* Quick Demo Credentials Autofill */}
-          <div className="mt-6 pt-5 border-t border-slate-100">
-            <div className="flex items-center justify-between mb-2.5">
-              <div className="flex items-center space-x-1.5 text-xs text-slate-500">
-                <ShieldCheck className="w-3.5 h-3.5 text-brand-600" />
-                <span className="font-mono text-[10px] uppercase tracking-wider font-semibold text-slate-700">
-                  DEMO ACCESS
-                </span>
-              </div>
-              <span className="font-mono text-[9px] text-slate-400">
-                Click to populate
-              </span>
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                onClick={() => fillCredentials('admin@elms.com', 'Admin@123')}
-                className="py-1.5 px-2 text-center text-xs font-medium rounded-lg border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 cursor-pointer active:scale-[0.98]"
-              >
-                Admin
-              </button>
-              <button
-                type="button"
-                onClick={() => fillCredentials('manager@elms.com', 'Manager@123')}
-                className="py-1.5 px-2 text-center text-xs font-medium rounded-lg border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 cursor-pointer active:scale-[0.98]"
-              >
-                Manager
-              </button>
-              <button
-                type="button"
-                onClick={() => fillCredentials('employee@elms.com', 'Employee@123')}
-                className="py-1.5 px-2 text-center text-xs font-medium rounded-lg border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 cursor-pointer active:scale-[0.98]"
-              >
-                Employee
-              </button>
-            </div>
-          </div>
         </div>
 
         {/* Security Footer Notice & Landing Page Link */}
