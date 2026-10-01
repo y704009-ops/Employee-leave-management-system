@@ -38,7 +38,7 @@ const LandingPage = () => {
   }, [handleGlobalKeyDown]);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans selection:bg-brand-500 selection:text-white antialiased overflow-x-hidden w-full">
+    <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col font-sans selection:bg-sky-500 selection:text-white antialiased overflow-x-hidden w-full">
       {/* Fixed Navigation Header */}
       <LandingNavbar onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
 

@@ -118,7 +118,7 @@ describe('CTASection & LandingFooter Phase 7 Tests', () => {
     expect(screen.getByRole('link', { name: 'Sign In' })).toBeInTheDocument();
 
     // Operational status
-    expect(screen.getByText('Systems Operational')).toBeInTheDocument();
+    expect(screen.getByText('Product Preview')).toBeInTheDocument();
 
     // Copyright
     const currentYear = new Date().getFullYear();

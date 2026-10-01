@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import SecurityGovernanceSection from '../components/landing/SecurityGovernanceSection';
 
 describe('SecurityGovernanceSection Phase 5 Tests', () => {

@@ -93,7 +93,7 @@ const WORKFORCE_STAGES = [
     checkColor: 'text-emerald-400',
     checkStatus: '0 Overlaps',
     reconcileLabel: 'Audit Rebalancing',
-    reconcileVal: '100% Synced',
+    reconcileVal: 'Reconciled (Demo)',
     balanceAvail: '13.5 Days (Settled)',
     quorumVal: '94% Safe',
     activeStaffVal: '17 / 18',
@@ -199,7 +199,7 @@ const HeroSection = () => {
 
             {/* Step 3: Strategic Value Proposition Paragraph */}
             <p className="animate-fade-in-up delay-250 text-base sm:text-lg text-slate-300 max-w-xl mb-8 leading-relaxed font-normal">
-              The enterprise leave management platform built for modern organizations. Empower employees with transparent self-service leave requests, give managers immediate team quorum and absence visibility, and equip HR with automated statutory balancing and immutable audit records.
+              The enterprise leave management platform built for modern organizations. Empower employees with transparent self-service leave requests, give managers immediate team quorum and absence visibility, and equip HR with automated statutory balancing and auditable workflow records.
             </p>
 
             {/* Step 4: Intentional CTA Cluster */}
@@ -254,7 +254,7 @@ const HeroSection = () => {
               <span className="text-slate-700 font-mono text-xs hidden sm:inline">•</span>
               <div className="flex items-center gap-1.5 text-xs text-slate-300 font-medium">
                 <FileCheck2 className="w-4 h-4 text-indigo-300" />
-                <span>Immutable Audit Trail</span>
+                <span>Auditable Activity Trail</span>
               </div>
             </div>
           </div>
@@ -640,7 +640,7 @@ const HeroSection = () => {
           <div className="flex items-center gap-2 bg-slate-900/80 backdrop-blur-md border border-slate-800 px-3.5 py-1.5 rounded-lg shadow-xs">
             <Building2 className="w-4 h-4 text-sky-400" />
             <span className="font-mono text-slate-200">
-              SkillMate Enterprise Environment — Active Instance
+              SkillMate Enterprise Architecture — Product Preview
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-3 font-mono text-slate-400 bg-slate-900/60 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-slate-800 text-[11px]">

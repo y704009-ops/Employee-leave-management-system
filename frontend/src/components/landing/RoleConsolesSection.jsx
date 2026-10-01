@@ -865,7 +865,7 @@ const RoleConsolesSection = () => {
                       AUDIT EVENTS
                     </span>
                     <div className="text-xl font-bold text-emerald-400 font-mono">1,800+ (DEMO)</div>
-                    <span className="font-mono text-[9px] text-slate-400">100% Sealed</span>
+                    <span className="font-mono text-[9px] text-slate-400">Illustrative Demo</span>
                   </div>
                 </div>
 

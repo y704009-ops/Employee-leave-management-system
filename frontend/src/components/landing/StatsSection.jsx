@@ -19,8 +19,8 @@ const stats = [
     metric: 'Real-Time Sync',
     description: 'Real-time entitlement balance calculation prevents overdraft submissions and manual spreadsheet re-entry.',
     badge: 'Pre-check Verified',
-    badgeColor: 'text-sky-700 bg-sky-50 border-sky-200',
-    topBorder: 'border-t-sky-600',
+    badgeColor: 'text-sky-300 bg-sky-950/80 border-sky-800',
+    topBorder: 'border-t-sky-500',
   },
   {
     num: '02',
@@ -30,19 +30,19 @@ const stats = [
     metric: '3 Segregated Roles',
     description: 'Strict permission boundaries and data segregation for Employee, Manager, and HR Administrator consoles.',
     badge: 'Role Enforced',
-    badgeColor: 'text-brand-700 bg-brand-50 border-brand-200',
-    topBorder: 'border-t-brand-700',
+    badgeColor: 'text-amber-300 bg-amber-950/80 border-amber-800',
+    topBorder: 'border-t-amber-500',
   },
   {
     num: '03',
     icon: Lock,
-    label: 'COMPLIANCE TRAIL',
+    label: 'AUDIT TRAIL',
     title: 'Auditable Decisions',
-    metric: '100% Traceable',
-    description: 'Immutable transaction logs with cryptographic timestamping for every application, decision, and policy check.',
-    badge: 'Audit Ready',
-    badgeColor: 'text-indigo-700 bg-indigo-50 border-indigo-200',
-    topBorder: 'border-t-indigo-600',
+    metric: 'Traceable (Demo)',
+    description: 'Structured transaction logs with sequential timestamping for every application, decision, and policy check.',
+    badge: 'Audit Preview',
+    badgeColor: 'text-indigo-300 bg-indigo-950/80 border-indigo-800',
+    topBorder: 'border-t-indigo-500',
   },
   {
     num: '04',
@@ -52,8 +52,8 @@ const stats = [
     metric: 'Team Coverage',
     description: 'Automated concurrent absence detection safeguards operational quorum before line managers sign off.',
     badge: 'Overlap Checked',
-    badgeColor: 'text-slate-800 bg-slate-100 border-slate-300',
-    topBorder: 'border-t-slate-700',
+    badgeColor: 'text-emerald-300 bg-emerald-950/80 border-emerald-800',
+    topBorder: 'border-t-emerald-500',
   },
 ];
 
@@ -63,7 +63,6 @@ const StatCounter = ({ value, isInView }) => {
       return value;
     }
     if (value === '3 Segregated Roles') return '0 Segregated Roles';
-    if (value === '100% Traceable') return '0% Traceable';
     return value;
   });
 
@@ -92,24 +91,6 @@ const StatCounter = ({ value, isInView }) => {
       };
       frameId = requestAnimationFrame(step);
       return () => cancelAnimationFrame(frameId);
-    } else if (value === '100% Traceable') {
-      let start = null;
-      const duration = 1000;
-      let frameId;
-      const step = (timestamp) => {
-        if (!start) start = timestamp;
-        const progress = Math.min((timestamp - start) / duration, 1);
-        const ease = 1 - Math.pow(1 - progress, 3);
-        const current = Math.round(100 * ease);
-        setDisplay(`${current}% Traceable`);
-        if (progress < 1) {
-          frameId = requestAnimationFrame(step);
-        } else {
-          setDisplay('100% Traceable');
-        }
-      };
-      frameId = requestAnimationFrame(step);
-      return () => cancelAnimationFrame(frameId);
     } else {
       setDisplay(value);
     }
@@ -125,12 +106,10 @@ const StatsSection = () => {
     <section
       id="trust"
       ref={sectionRef}
-      className="w-full bg-white border-b border-slate-200/80 relative z-20 overflow-hidden"
+      className="w-full bg-[#030712] border-b border-slate-800/80 relative z-20 overflow-hidden text-slate-100"
     >
-      {/* ============================================================== */}
-      {/* PHASE 2 — TRUST / ENTERPRISE SIGNALS STRIP                     */}
-      {/* ============================================================== */}
-      <div className="w-full bg-slate-900 border-b border-slate-800 py-3.5 px-4 overflow-x-auto scrollbar-none">
+      {/* 1. TRUST / ENTERPRISE SIGNALS STRIP */}
+      <div className="w-full bg-slate-950/90 border-b border-slate-800/80 py-3.5 px-4 overflow-x-auto scrollbar-none">
         <div className="max-w-[1280px] mx-auto flex items-center justify-between gap-6 sm:gap-8 min-w-max text-[11px] font-mono text-slate-300">
           {TRUST_SIGNALS.map((signal, idx) => (
             <div key={idx} className="flex items-center gap-2 tracking-wider">
@@ -144,31 +123,34 @@ const StatsSection = () => {
         </div>
       </div>
 
-      {/* Subtle Background Accent */}
-      <div className="absolute inset-0 bg-enterprise-grid [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none opacity-40" />
+      {/* 2. Architectural Grid Texture */}
+      <div className="absolute inset-0 bg-enterprise-dark-grid [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none opacity-40" />
 
-      {/* ============================================================== */}
-      {/* PHASE 3 — PREMIUM STATS SECTION                                */}
-      {/* ============================================================== */}
-      <div className="relative z-10 w-[calc(100%-32px)] sm:w-[calc(100%-48px)] max-w-[1280px] mx-auto py-14 sm:py-18">
+      {/* 3. Ambient Lighting Glow */}
+      <div className="absolute top-1/3 right-1/4 w-[32rem] h-[32rem] bg-sky-600/10 rounded-full blur-3xl pointer-events-none" />
+
+      {/* 4. PREMIUM STATS SECTION CONTAINER */}
+      <div className="relative z-10 w-[calc(100%-32px)] sm:w-[calc(100%-48px)] max-w-[1280px] mx-auto py-16 sm:py-20">
         {/* Section Header */}
         <div
           className={`max-w-2xl mb-10 sm:mb-12 transition-all duration-600 ease-out ${
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          <div className="font-mono text-xs text-brand-700 font-bold uppercase tracking-wider mb-2">
-            ARCHITECTURAL GUARANTEES
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900/90 border border-slate-700/80 shadow-xs mb-3.5 backdrop-blur-md">
+            <span className="font-mono text-xs font-bold text-sky-400 uppercase tracking-wider">
+              ARCHITECTURAL GUARANTEES
+            </span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-black text-white tracking-[-0.03em] leading-tight">
             High-assurance operational guarantees.
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed font-normal">
-            Deterministic leave quota calculations, zero-trust role segregation, and immutable auditability.
+          <p className="text-sm sm:text-base text-slate-300 mt-2.5 leading-relaxed font-normal">
+            Deterministic leave quota calculations, role-based operational segregation, and auditable workflow traceability.
           </p>
         </div>
 
-        {/* 4-Card Responsive Grid: Desktop (4 cols), Tablet (2 cols), Mobile (1 col) */}
+        {/* 4-Card Responsive Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 lg:gap-6 w-full">
           {stats.map((item, index) => {
             const Icon = item.icon;
@@ -178,44 +160,44 @@ const StatsSection = () => {
                 style={{
                   transitionDelay: isInView ? `${index * 80}ms` : '0ms',
                 }}
-                className={`flex flex-col justify-between h-full p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 border-t-[3px] ${item.topBorder} shadow-2xs hover:shadow-md hover:border-slate-300 hover:-translate-y-1 transition-all duration-200 ease-out group ${
+                className={`flex flex-col justify-between h-full p-5 sm:p-6 rounded-2xl bg-[#090e1a]/90 border border-slate-800/90 border-t-[3px] ${item.topBorder} shadow-md hover:border-slate-700 hover:bg-[#0c1324] hover:-translate-y-1 transition-all duration-200 ease-out group ${
                   isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
                 }`}
               >
                 <div>
                   {/* Step Number & Category Header */}
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between mb-3.5">
                     <span className="font-mono text-xs font-bold text-slate-400">
                       {item.num}
                     </span>
-                    <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center justify-center text-slate-700 shadow-2xs group-hover:bg-brand-50 group-hover:text-brand-700 group-hover:border-brand-200 transition-colors">
-                      <Icon className="w-4 h-4 text-brand-700" />
+                    <div className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-sky-400 shadow-2xs group-hover:bg-sky-950 group-hover:text-sky-300 group-hover:border-sky-800 transition-colors">
+                      <Icon className="w-4 h-4 text-sky-400" />
                     </div>
                   </div>
 
                   {/* Stat Title */}
-                  <h3 className="text-base font-bold text-slate-900 mb-1 leading-snug">
+                  <h3 className="text-base font-bold text-white mb-1 leading-snug">
                     {item.title}
                   </h3>
 
                   {/* Primary Numerical / Metric Signal */}
-                  <div className="text-xl sm:text-2xl font-bold text-brand-700 tracking-tight font-mono my-1.5">
+                  <div className="text-xl sm:text-2xl font-bold text-sky-400 tracking-tight font-mono my-1.5">
                     <StatCounter value={item.metric} isInView={isInView} />
                   </div>
 
                   {/* Supporting Explanation */}
-                  <p className="text-xs text-slate-600 leading-relaxed font-normal mt-2">
+                  <p className="text-xs text-slate-300 leading-relaxed font-normal mt-2">
                     {item.description}
                   </p>
                 </div>
 
                 {/* Divider & Status / Verification Indicator */}
-                <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <span className={`inline-flex items-center px-2 py-0.5 rounded font-mono text-[9px] font-bold uppercase tracking-wider border ${item.badgeColor}`}>
+                <div className="mt-5 pt-3 border-t border-slate-800/80 flex items-center justify-between font-mono">
+                  <span className={`inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border ${item.badgeColor}`}>
                     {item.badge}
                   </span>
-                  <span className="font-mono text-[10px] text-slate-400 group-hover:text-slate-600 transition-colors font-medium flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                  <span className="text-[10px] text-slate-400 group-hover:text-slate-300 transition-colors font-medium flex items-center gap-1">
+                    <CheckCircle2 className="w-3 h-3 text-emerald-400" />
                     <span>VERIFIED</span>
                   </span>
                 </div>
