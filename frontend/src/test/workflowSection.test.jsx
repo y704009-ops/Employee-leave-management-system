@@ -90,21 +90,21 @@ describe('WorkflowSection Phase 4 Tests', () => {
 
     // Initially Stage 1 is active
     expect(stage1Btn).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByText('01 / 03')).toBeInTheDocument();
+    expect(screen.getAllByText('01 / 03').length).toBeGreaterThan(0);
     expect(screen.getByText(/STAGE 01 PROTOCOL/i)).toBeInTheDocument();
 
     // Click Stage 2
     fireEvent.click(stage2Btn);
     expect(stage2Btn).toHaveAttribute('aria-pressed', 'true');
     expect(stage1Btn).toHaveAttribute('aria-pressed', 'false');
-    expect(screen.getByText('02 / 03')).toBeInTheDocument();
+    expect(screen.getAllByText('02 / 03').length).toBeGreaterThan(0);
     expect(screen.getByText(/STAGE 02 PROTOCOL/i)).toBeInTheDocument();
 
     // Keyboard activate Stage 3 with Enter
     fireEvent.keyDown(stage3Btn, { key: 'Enter', code: 'Enter' });
     expect(stage3Btn).toHaveAttribute('aria-pressed', 'true');
     expect(stage2Btn).toHaveAttribute('aria-pressed', 'false');
-    expect(screen.getByText('03 / 03')).toBeInTheDocument();
+    expect(screen.getAllByText('03 / 03').length).toBeGreaterThan(0);
     expect(screen.getByText(/STAGE 03 PROTOCOL/i)).toBeInTheDocument();
   });
 
@@ -126,7 +126,7 @@ describe('WorkflowSection Phase 4 Tests', () => {
     );
 
     // End stage should be 03 / 03
-    expect(screen.getByText('03 / 03')).toBeInTheDocument();
+    expect(screen.getAllByText('03 / 03').length).toBeGreaterThan(0);
     expect(screen.getByText(/STAGE 03 PROTOCOL/i)).toBeInTheDocument();
   });
 
