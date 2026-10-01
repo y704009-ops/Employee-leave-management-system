@@ -106,8 +106,8 @@ describe('CTASection & LandingFooter Phase 7 Tests', () => {
     );
 
     // Branding
-    expect(screen.getByText('SkillMate ELMS')).toBeInTheDocument();
-    expect(screen.getByText('Workforce operations, simplified.')).toBeInTheDocument();
+    expect(screen.getByText('WORKORA')).toBeInTheDocument();
+    expect(screen.getByText('Workforce Management System')).toBeInTheDocument();
 
     // Navigation links
     expect(screen.getByRole('link', { name: 'Product' })).toBeInTheDocument();
@@ -122,6 +122,7 @@ describe('CTASection & LandingFooter Phase 7 Tests', () => {
 
     // Copyright
     const currentYear = new Date().getFullYear();
-    expect(screen.getByText(new RegExp(`© ${currentYear} SkillMate / ELMS`))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(`© ${currentYear} WORKORA`))).toBeInTheDocument();
+    expect(screen.getByText('Workforce Management System • Product Preview')).toBeInTheDocument();
   });
 });

@@ -35,17 +35,18 @@ const Header = ({ onToggleSidebar }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
-  const { showSuccess } = useToast();
+  const { showSuccess, clearToasts } = useToast();
 
   const currentRoute = routeTitleMap[location.pathname] || {
-    portal: 'ELMS',
+    portal: 'WORKORA',
     title: 'Leave Management',
   };
 
   const handleLogout = async () => {
+    clearToasts?.();
+    navigate('/login', { replace: true, state: null });
     await logout();
     showSuccess('Logged out successfully');
-    navigate('/login');
   };
 
   return (

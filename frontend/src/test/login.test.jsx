@@ -19,12 +19,13 @@ vi.mock('react-router-dom', async () => {
 describe('LoginPage Frontend Tests', () => {
   const mockLogin = vi.fn();
   const mockShowSuccess = vi.fn();
+  const mockClearToasts = vi.fn();
 
   const renderLoginPage = (loginFn = mockLogin) => {
     return render(
       <MemoryRouter>
         <AuthContext.Provider value={{ login: loginFn, isAuthenticated: false, isLoading: false, user: null }}>
-          <ToastContext.Provider value={{ showSuccess: mockShowSuccess, showError: vi.fn() }}>
+          <ToastContext.Provider value={{ showSuccess: mockShowSuccess, showError: vi.fn(), clearToasts: mockClearToasts }}>
             <LoginPage />
           </ToastContext.Provider>
         </AuthContext.Provider>
@@ -39,7 +40,9 @@ describe('LoginPage Frontend Tests', () => {
   it('renders login form with email, password, and submit controls and NO demo access shortcuts', () => {
     renderLoginPage();
 
-    expect(screen.getByText('ELMS Enterprise')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'WORKORA' })).toBeInTheDocument();
+    expect(screen.getByText('Workforce Management System')).toBeInTheDocument();
+    expect(screen.getByText('Back to WORKORA')).toBeInTheDocument();
     expect(screen.getByLabelText(/work email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /^sign in$/i })).toBeInTheDocument();
@@ -121,8 +124,9 @@ describe('LoginPage Frontend Tests', () => {
 
     await waitFor(() => {
       expect(mockLogin).toHaveBeenCalledWith('employee@elms.com', 'ValidPass123');
+      expect(mockClearToasts).toHaveBeenCalled();
       expect(mockShowSuccess).toHaveBeenCalledWith('Welcome back, Alice Employee!');
       expect(mockNavigate).toHaveBeenCalledWith('/employee/dashboard', { replace: true });
-    });
+    }, { timeout: 3000 });
   });
 });

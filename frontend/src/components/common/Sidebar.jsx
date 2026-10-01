@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, Link } from 'react-router-dom';
 import {
   LayoutDashboard,
   CalendarPlus,
@@ -13,21 +13,22 @@ import {
   BarChart3,
   User,
   X,
-  Briefcase,
   LogOut,
 } from 'lucide-react';
+import WorkoraLogo from './WorkoraLogo';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../hooks/useToast';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const { showSuccess } = useToast();
+  const { showSuccess, clearToasts } = useToast();
 
   const handleLogout = async () => {
+    clearToasts?.();
+    navigate('/login', { replace: true, state: null });
     await logout();
     showSuccess('Logged out successfully');
-    navigate('/login');
   };
 
   const role = user?.role || 'EMPLOYEE';
@@ -96,21 +97,23 @@ const Sidebar = ({ isOpen, onClose }) => {
         aria-label="Sidebar navigation"
       >
         {/* Brand Header */}
-        <div className="h-16 flex items-center justify-between px-5 border-b border-slate-800 bg-slate-900/90">
-          <div className="flex items-center space-x-3 min-w-0">
-            <div className="p-2 bg-brand-600 rounded-lg text-white shadow-xs flex-shrink-0">
-              <Briefcase className="w-4.5 h-4.5" />
+        <div className="h-16 flex items-center justify-between px-4 border-b border-slate-800 bg-slate-900/90">
+          <Link
+            to="/"
+            className="flex items-center space-x-2.5 min-w-0 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-lg p-0.5"
+            title="WORKORA — Workforce Management System"
+            aria-label="WORKORA - Workforce Management System"
+          >
+            <WorkoraLogo size={30} className="shrink-0 group-hover:brightness-110 transition-all" idPrefix="workora-sidebar" />
+            <div className="min-w-0 flex flex-col justify-center">
+              <span className="font-bold text-white text-sm tracking-tight truncate leading-tight">
+                WORKOR<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">A</span>
+              </span>
+              <p className="text-[10px] text-slate-400 font-normal truncate leading-tight mt-0.5">
+                Workforce Management System
+              </p>
             </div>
-            <div className="min-w-0">
-              <div className="flex items-center space-x-1.5">
-                <span className="font-bold text-white text-sm tracking-tight truncate">ELMS</span>
-                <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-slate-800 text-brand-300 border border-slate-700">
-                  SaaS
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-400 font-normal truncate">Enterprise Leave</p>
-            </div>
-          </div>
+          </Link>
           <button
             onClick={onClose}
             aria-label="Close navigation"

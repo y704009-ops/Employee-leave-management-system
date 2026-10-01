@@ -2,8 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldAlert, ArrowLeft } from 'lucide-react';
 import Button from '../../components/common/Button';
+import { useAuth, getDashboardForRole } from '../../context/AuthContext';
 
 const ForbiddenPage = () => {
+  const { user } = useAuth();
+  const dashboardPath = getDashboardForRole(user?.role);
+
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center text-center p-6">
       <div className="p-3 bg-rose-50 border border-rose-100 rounded-xl text-rose-600 mb-4 shadow-xs">
@@ -14,7 +18,7 @@ const ForbiddenPage = () => {
       <p className="text-xs text-slate-500 max-w-sm mt-1.5 mb-6 leading-relaxed">
         You do not have permission to access this resource or administrative section with your current account privileges.
       </p>
-      <Link to="/employee/dashboard">
+      <Link to={dashboardPath}>
         <Button size="sm" icon={ArrowLeft}>Return to Dashboard</Button>
       </Link>
     </div>

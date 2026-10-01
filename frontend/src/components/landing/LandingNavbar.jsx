@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, getDashboardForRole } from '../../context/AuthContext';
 import { User, ArrowRight, Menu, X, Shield, Lock, Command } from 'lucide-react';
+import WorkoraLogo from '../common/WorkoraLogo';
 
 const LandingNavbar = ({ onOpenCommandPalette }) => {
   const { isAuthenticated, user } = useAuth();
@@ -65,20 +66,16 @@ const LandingNavbar = ({ onOpenCommandPalette }) => {
         {/* Brand Identity */}
         <a
           href="#hero"
-          className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded-lg p-1 -m-1"
+          className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded-lg p-1 -m-1 shrink-0"
+          aria-label="WORKORA - Workforce Management System"
         >
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-700 to-brand-900 border border-sky-400/30 flex items-center justify-center shadow-xs group-hover:shadow transition-all">
-            <span className="text-white font-extrabold text-base tracking-wider font-mono">E</span>
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-1.5">
-              <span className="text-base font-bold text-white tracking-tight">SkillMate</span>
-              <span className="px-1.5 py-0.5 rounded bg-slate-900 font-mono text-[10px] text-sky-400 font-bold border border-slate-800">
-                ELMS v2.4
-              </span>
-            </div>
-            <span className="text-[11px] text-slate-400 font-normal leading-none hidden xl:block">
-              Enterprise Leave Management System
+          <WorkoraLogo size={36} className="shrink-0 group-hover:brightness-110 transition-all duration-200" />
+          <div className="flex flex-col justify-center">
+            <span className="text-base sm:text-lg font-black tracking-wider text-white leading-none">
+              WORKOR<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">A</span>
+            </span>
+            <span className="text-[10px] sm:text-[11px] text-slate-400 font-normal leading-tight mt-0.5 hidden xs:block sm:block">
+              Workforce Management System
             </span>
           </div>
         </a>

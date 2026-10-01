@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { CheckCircle2, AlertCircle, Info, AlertTriangle, X } from 'lucide-react';
 
 const toastStyles = {
@@ -23,13 +23,18 @@ const toastStyles = {
 const Toast = ({ toast, onClose }) => {
   const { message, type = 'info', duration = 4000 } = toast;
   const style = toastStyles[type] || toastStyles.info;
+  const onCloseRef = useRef(onClose);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      onClose();
+      onCloseRef.current?.();
     }, duration);
     return () => clearTimeout(timer);
-  }, [duration, onClose]);
+  }, [duration]);
 
   return (
     <div

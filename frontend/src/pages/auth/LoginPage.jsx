@@ -12,7 +12,8 @@ import {
 } from 'lucide-react';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
-import { useAuth, getDashboardForRole } from '../../context/AuthContext';
+import WorkoraLogo from '../../components/common/WorkoraLogo';
+import { useAuth, getDashboardForRole, isRouteAllowedForRole } from '../../context/AuthContext';
 import { useToast } from '../../hooks/useToast';
 import { validateEmail, validateRequired } from '../../validation/formValidators';
 
@@ -20,7 +21,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
-  const { showSuccess } = useToast();
+  const { showSuccess, clearToasts } = useToast();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,11 +50,17 @@ const LoginPage = () => {
 
     try {
       const authUser = await login(email, password);
+      clearToasts?.();
       showSuccess(`Welcome back, ${authUser.name}!`);
 
-      // Redirect to previous requested page or role-specific dashboard
-      const from = location.state?.from?.pathname;
-      const targetPath = from && from !== '/login' ? from : getDashboardForRole(authUser.role);
+      // Redirect to previous requested page ONLY if explicitly valid and authorized for the newly authenticated role.
+      // If invalid, unauthorized for the role, or referencing auth/error routes, route safely to the role dashboard.
+      const rawFrom = location.state?.from;
+      const fromPath = typeof rawFrom === 'string' ? rawFrom : rawFrom?.pathname;
+      const targetPath = fromPath && isRouteAllowedForRole(fromPath, authUser.role)
+        ? fromPath
+        : getDashboardForRole(authUser.role);
+
       navigate(targetPath, { replace: true });
     } catch (err) {
       setSubmitError(err.message || 'Invalid email or password. Please verify your credentials.');
@@ -79,22 +86,21 @@ const LoginPage = () => {
           <Link
             to="/"
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition-all duration-200 shadow-2xs group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
-            title="Return to SkillMate Landing Page"
+            title="Return to WORKORA Landing Page"
+            aria-label="Return to WORKORA Landing Page"
           >
-            <div className="w-5 h-5 rounded-md bg-brand-600 flex items-center justify-center text-white text-[10px] font-mono font-bold shadow-2xs group-hover:scale-105 transition-transform">
-              E
-            </div>
+            <WorkoraLogo size={20} className="shrink-0" idPrefix="workora-login-badge" />
             <span className="font-mono text-xs font-semibold tracking-wider text-slate-200">
-              ELMS PLATFORM
+              WORKORA
             </span>
           </Link>
 
           <div className="space-y-1">
             <h1 className="text-2xl font-bold text-white tracking-tight">
-              ELMS Enterprise
+              WORKORA
             </h1>
             <p className="text-xs text-slate-400 font-normal">
-              Employee Leave Management System
+              Workforce Management System
             </p>
           </div>
         </div>
@@ -197,7 +203,7 @@ const LoginPage = () => {
         <div className="text-center space-y-2">
           <p className="text-[11px] text-slate-400 flex items-center justify-center space-x-1.5 font-normal">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Secured with Spring Security &amp; 256-bit JWT Encryption</span>
+            <span>Secured with Spring Security • JWT Authentication</span>
           </p>
           <div>
             <Link
@@ -205,7 +211,7 @@ const LoginPage = () => {
               className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-200 transition-colors py-1 px-2 rounded-md hover:bg-slate-900/60"
             >
               <ArrowLeft className="w-3 h-3" />
-              <span>Back to SkillMate Landing Page</span>
+              <span>Back to WORKORA</span>
             </Link>
           </div>
         </div>

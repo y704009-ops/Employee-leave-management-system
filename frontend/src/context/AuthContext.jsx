@@ -15,6 +15,40 @@ export const getDashboardForRole = (role) => {
   }
 };
 
+/**
+ * Validates whether a requested destination path is authorized for the specified role.
+ * Prevents unauthorized or stale routes from being restored post-login.
+ */
+export const isRouteAllowedForRole = (pathname, role) => {
+  if (!pathname || typeof pathname !== 'string') return false;
+  if (!role || typeof role !== 'string') return false;
+
+  // Clean pathname: strip query parameters and hash fragments
+  const path = pathname.split('?')[0].split('#')[0];
+
+  // Auth, public, and error routes cannot be post-login redirect destinations
+  if (['/', '/login', '/403', '/404'].includes(path)) {
+    return false;
+  }
+
+  // Admin routes: strictly ADMIN only
+  if (path === '/admin' || path.startsWith('/admin/')) {
+    return role === 'ADMIN';
+  }
+
+  // Manager routes: MANAGER and ADMIN only
+  if (path === '/manager' || path.startsWith('/manager/')) {
+    return role === 'MANAGER' || role === 'ADMIN';
+  }
+
+  // Employee routes: EMPLOYEE, MANAGER, and ADMIN
+  if (path === '/employee' || path.startsWith('/employee/')) {
+    return role === 'EMPLOYEE' || role === 'MANAGER' || role === 'ADMIN';
+  }
+
+  return false;
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     try {
@@ -36,6 +70,11 @@ export const AuthProvider = ({ children }) => {
     } finally {
       localStorage.removeItem('elms_auth_token');
       localStorage.removeItem('elms_auth_user');
+      try {
+        sessionStorage.clear();
+      } catch {
+        // Handle environments where sessionStorage may be restricted
+      }
       setToken(null);
       setUser(null);
       setIsAuthenticated(false);
@@ -106,6 +145,7 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         getDashboardForRole,
+        isRouteAllowedForRole,
       }}
     >
       {children}

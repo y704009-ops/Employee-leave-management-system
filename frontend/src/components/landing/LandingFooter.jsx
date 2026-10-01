@@ -1,6 +1,6 @@
 import React from 'react';
-import { Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import WorkoraLogo from '../common/WorkoraLogo';
 
 /**
  * LandingFooter Component (Phase 7 Enterprise Polish)
@@ -18,18 +18,11 @@ const LandingFooter = () => {
         {/* Main Footer Row */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-slate-800/80">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-700 to-brand-900 border border-sky-400/30 flex items-center justify-center shadow-xs">
-              <span className="text-white font-extrabold text-sm tracking-wider font-mono">E</span>
-            </div>
+            <WorkoraLogo size={32} className="shrink-0" idPrefix="workora-footer" />
             <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="text-sm font-bold text-white leading-tight">SkillMate ELMS</span>
-                <span className="px-1.5 py-0.5 rounded bg-slate-900 font-mono text-[10px] text-sky-400 font-bold border border-slate-800">
-                  v2.4
-                </span>
-              </div>
+              <span className="text-sm font-bold text-white leading-tight">WORKORA</span>
               <span className="text-xs text-slate-400 leading-tight">
-                Workforce operations, simplified.
+                Workforce Management System
               </span>
             </div>
           </div>
@@ -63,12 +56,11 @@ const LandingFooter = () => {
           </div>
         </div>
 
-        {/* Sub-Footer Copyright & Security Notice */}
+        {/* Sub-Footer Copyright & Product Notice */}
         <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-400 font-mono">
-          <p>© {CURRENT_YEAR} SkillMate / ELMS. All rights reserved.</p>
+          <p>© {CURRENT_YEAR} WORKORA. All rights reserved.</p>
           <div className="flex items-center gap-1.5 text-slate-400 text-[11px]">
-            <Lock className="w-3.5 h-3.5 text-slate-500" />
-            <span>Role-Based Corporate Gateway • Authorized Personnel Only</span>
+            <span>Workforce Management System • Product Preview</span>
           </div>
         </div>
 
