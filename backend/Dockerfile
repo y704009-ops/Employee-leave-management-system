@@ -36,8 +36,7 @@ EXPOSE 8080
 # - Activate production profile (application-prod.yml)
 # - Default port 8080 (overridden by Render's $PORT at runtime)
 ENV SPRING_PROFILES_ACTIVE=prod \
-    SERVER_ADDRESS=0.0.0.0 \
-    PORT=8080
+    SERVER_ADDRESS=0.0.0.0
 
-# Execute Spring Boot using exec so Java runs as PID 1 to handle SIGTERM/SIGINT gracefully
+# Execute Spring Boot using exec so Java runs as PID 1
 ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -Dserver.port=${PORT:-8080} -Dserver.address=0.0.0.0 -jar /app/app.jar"]
