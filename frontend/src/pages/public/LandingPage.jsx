@@ -23,6 +23,10 @@ const LandingPage = () => {
   // Global Ctrl+K / Cmd+K listener
   const handleGlobalKeyDown = useCallback((e) => {
     if ((e.metaKey || e.ctrlKey) && e.key?.toLowerCase() === 'k') {
+      const targetTag = e.target?.tagName?.toLowerCase();
+      if (targetTag === 'input' || targetTag === 'textarea' || e.target?.isContentEditable) {
+        return;
+      }
       e.preventDefault();
       setIsCommandPaletteOpen((prev) => !prev);
     }

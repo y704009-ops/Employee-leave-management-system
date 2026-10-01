@@ -20,10 +20,10 @@ import {
 
 /**
  * COMMAND SPECIFICATIONS
- * Structured into 3 clear enterprise categories:
+ * Structured into 3 enterprise categories:
  * - NAVIGATE (Section smooth scrolling)
  * - PRODUCT PREVIEW (Interactive role console activation)
- * - QUICK ACTIONS (Platform exploration, Sign In, and workflow execution)
+ * - QUICK ACTIONS / WORKSPACE (Platform exploration, Sign In, and workflow execution)
  */
 const COMMAND_GROUPS = [
   {
@@ -45,7 +45,7 @@ const COMMAND_GROUPS = [
         description: 'Explore the 6 core workforce management capabilities',
         icon: LayoutGrid,
         category: 'NAVIGATE',
-        keywords: ['capabilities', 'features', 'modules', 'leave balance', 'statutory policies'],
+        keywords: ['capabilities', 'features', 'cap', 'modules', 'leave balance', 'statutory policies'],
         action: 'scroll',
         target: '#capabilities',
       },
@@ -159,7 +159,7 @@ const COMMAND_GROUPS = [
 /**
  * Command Center / Command Palette (Phase 6)
  *
- * Premium enterprise command center providing keyboard-driven (Ctrl+K / Cmd+K)
+ * Premium enterprise SaaS command center providing keyboard-driven (Ctrl+K / Cmd+K)
  * search and execution across landing sections, role consoles, and interactive workflows.
  */
 const CommandPalette = ({ isOpen, onClose }) => {
@@ -289,24 +289,30 @@ const CommandPalette = ({ isOpen, onClose }) => {
       {/* Dim Translucent Backdrop */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs transition-opacity duration-150 animate-in fade-in"
+        className="fixed inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity duration-150"
       />
 
       {/* Main Panel Container */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative z-10 w-full max-w-xl bg-white rounded-2xl border border-slate-200/90 shadow-2xl overflow-hidden transition-all duration-200 animate-in fade-in zoom-in-95"
+        className="relative z-10 w-full max-w-xl bg-[#090e1a]/95 rounded-2xl border border-slate-800/90 shadow-2xl overflow-hidden transition-all duration-200 backdrop-blur-xl text-slate-100 font-mono"
       >
+        {/* Subtle Ambient Radial Highlight */}
+        <div className="absolute top-0 right-0 w-80 h-80 bg-sky-600/10 rounded-full blur-3xl pointer-events-none" />
+
         {/* Header with Search Input */}
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-100 bg-white">
-          <div className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200/80 flex items-center justify-center text-slate-600 shrink-0">
-            <Command className="w-4 h-4 text-brand-600" />
+        <div className="relative z-10 flex items-center gap-3 px-4 sm:px-5 py-3.5 border-b border-slate-800/80 bg-slate-950/80">
+          <div className="w-8 h-8 rounded-lg bg-sky-950/80 border border-sky-800 flex items-center justify-center text-sky-400 shrink-0">
+            <Command className="w-4 h-4 text-sky-400" />
           </div>
 
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-0.5">
-              <span className="font-mono text-[9px] font-bold text-brand-700 tracking-wider uppercase">
-                Command Center
+            <div className="flex items-center gap-2 mb-0.5 font-mono text-[9px] font-bold">
+              <span className="text-sky-400 uppercase tracking-wider">COMMAND CENTER</span>
+              <span className="text-slate-600">•</span>
+              <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                ● READY
               </span>
             </div>
             <input
@@ -320,18 +326,18 @@ const CommandPalette = ({ isOpen, onClose }) => {
               onKeyDown={handleInputKeyDown}
               placeholder="Search commands, sections, or actions..."
               aria-label="Search commands, sections, or actions"
-              className="w-full text-sm text-slate-900 placeholder:text-slate-400 bg-transparent outline-none font-medium"
+              className="w-full text-xs sm:text-sm text-white placeholder:text-slate-500 bg-transparent outline-none font-medium font-sans"
             />
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0">
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-semibold text-slate-500 bg-slate-100 border border-slate-200 rounded">
+          <div className="flex items-center gap-1.5 shrink-0 font-mono">
+            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-bold text-slate-400 bg-slate-900 border border-slate-800 rounded">
               ESC
             </kbd>
             <button
               type="button"
               onClick={onClose}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
               title="Close Command Center"
               aria-label="Close Command Center"
             >
@@ -341,29 +347,29 @@ const CommandPalette = ({ isOpen, onClose }) => {
         </div>
 
         {/* Results List */}
-        <div ref={listRef} className="max-h-[380px] overflow-y-auto p-2 divide-y divide-slate-100">
+        <div ref={listRef} className="relative z-10 max-h-[380px] overflow-y-auto p-2.5 divide-y divide-slate-800/60">
           {flatCommands.length === 0 ? (
             <div className="py-12 px-4 text-center font-mono">
-              <div className="w-10 h-10 mx-auto mb-3 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400">
+              <div className="w-10 h-10 mx-auto mb-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500">
                 <Search className="w-5 h-5" />
               </div>
-              <div className="text-xs font-bold text-slate-800 mb-1">
+              <div className="text-xs font-bold text-white uppercase tracking-wider mb-1">
                 No matching commands
               </div>
-              <p className="text-[11px] text-slate-500 font-sans">
+              <p className="text-[11px] text-slate-400 font-sans">
                 No matching commands found for &ldquo;{query}&rdquo;. Try searching for &ldquo;manager&rdquo;, &ldquo;security&rdquo;, &ldquo;workflow&rdquo;, or &ldquo;login&rdquo;.
               </p>
             </div>
           ) : (
             filteredGroups.map((group) => (
-              <div key={group.group} className="py-2 first:pt-1 last:pb-1">
+              <div key={group.group} className="py-2 first:pt-1 last:pb-1 font-mono">
                 {/* Group Heading */}
-                <div className="px-3 py-1 font-mono text-[9px] font-bold text-slate-400 uppercase tracking-wider">
+                <div className="px-3 py-1 text-[9px] font-bold text-slate-400 uppercase tracking-wider">
                   {group.group}
                 </div>
 
                 {/* Group Items */}
-                <div className="space-y-1 mt-1">
+                <div className="space-y-1 mt-1 font-sans">
                   {group.items.map((cmd) => {
                     const Icon = cmd.icon;
                     const itemFlatIndex = flatCommands.findIndex((c) => c.id === cmd.id);
@@ -379,18 +385,18 @@ const CommandPalette = ({ isOpen, onClose }) => {
                         aria-label={cmd.title}
                         onClick={() => executeCommand(cmd)}
                         onMouseEnter={() => setSelectedIndex(itemFlatIndex)}
-                        className={`w-full flex items-center justify-between p-2.5 sm:p-3 rounded-xl cursor-pointer text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
+                        className={`w-full flex items-center justify-between p-2.5 sm:p-3 rounded-xl cursor-pointer text-left transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${
                           isSelected
-                            ? 'bg-brand-50/90 border border-brand-200/80 shadow-2xs'
-                            : 'hover:bg-slate-50 border border-transparent'
+                            ? 'bg-sky-950/80 border border-sky-500/80 text-white shadow-md ring-1 ring-sky-400/20'
+                            : 'bg-slate-950/50 hover:bg-slate-900/90 border border-slate-800/80 text-slate-300'
                         }`}
                       >
                         <div className="flex items-center gap-3 min-w-0">
                           <div
                             className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-transform duration-150 ${
                               isSelected
-                                ? 'bg-brand-700 text-white border-brand-700 shadow-2xs scale-105'
-                                : 'bg-slate-100 text-slate-600 border-slate-200/80'
+                                ? 'bg-sky-500 text-white border-sky-400 shadow-xs scale-105'
+                                : 'bg-slate-900 text-slate-400 border-slate-800'
                             }`}
                           >
                             <Icon className="w-4 h-4" />
@@ -400,29 +406,29 @@ const CommandPalette = ({ isOpen, onClose }) => {
                             <div className="flex items-center gap-2">
                               <span
                                 className={`text-xs font-bold truncate ${
-                                  isSelected ? 'text-brand-950 font-bold' : 'text-slate-900'
+                                  isSelected ? 'text-white' : 'text-slate-200'
                                 }`}
                               >
                                 {cmd.title}
                               </span>
                             </div>
-                            <p className="text-[11px] text-slate-500 truncate mt-0.5 font-normal">
+                            <p className="text-[11px] text-slate-400 truncate mt-0.5 font-normal">
                               {cmd.description}
                             </p>
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                        <div className="flex items-center gap-1.5 shrink-0 ml-2 font-mono">
                           {isSelected && (
-                            <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono font-semibold text-brand-700 bg-brand-100/70 px-1.5 py-0.5 rounded border border-brand-200/60 shadow-2xs">
+                            <kbd className="hidden sm:inline-flex items-center text-[10px] font-bold text-sky-300 bg-sky-950 px-1.5 py-0.5 rounded border border-sky-800">
                               ↵
                             </kbd>
                           )}
                           <ArrowRight
                             className={`w-3.5 h-3.5 transition-transform duration-150 ${
                               isSelected
-                                ? 'text-brand-700 translate-x-0.5'
-                                : 'text-slate-300'
+                                ? 'text-sky-400 translate-x-0.5'
+                                : 'text-slate-600'
                             }`}
                           />
                         </div>
@@ -436,13 +442,13 @@ const CommandPalette = ({ isOpen, onClose }) => {
         </div>
 
         {/* Palette Footer Bar */}
-        <div className="px-4 py-2.5 bg-slate-50 border-t border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-[10px] font-mono text-slate-500">
+        <div className="relative z-10 px-4 py-2.5 bg-slate-950/90 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-[10px] font-mono text-slate-400">
           <div className="flex items-center gap-3">
             <span>↑↓ Navigate</span>
             <span>↵ Select</span>
             <span>ESC Close</span>
           </div>
-          <span className="text-slate-600 font-semibold tracking-wider">
+          <span className="text-sky-400 font-semibold tracking-wider">
             SIMULATED PRODUCT NAVIGATION
           </span>
         </div>
