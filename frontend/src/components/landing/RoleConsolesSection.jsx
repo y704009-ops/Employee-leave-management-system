@@ -14,6 +14,7 @@ import {
   FileText,
   BarChart3,
   Layers,
+  Play,
 } from 'lucide-react';
 import { useInView } from '../../hooks/useInView';
 
@@ -106,7 +107,7 @@ const INITIAL_EMPLOYEE_ACTIVITIES = [
     dates: 'Dec 24 → Dec 29',
     duration: '5.0 Days',
     status: '● Pending Manager Review',
-    statusBadge: 'bg-amber-50 text-amber-700 border-amber-200',
+    statusBadge: 'bg-amber-950/80 text-amber-300 border-amber-800',
     notes: 'Pre-scheduled annual entitlement leave. Secondary on-call coverage assigned.',
   },
   {
@@ -115,7 +116,7 @@ const INITIAL_EMPLOYEE_ACTIVITIES = [
     dates: 'Oct 14',
     duration: '1.0 Day',
     status: '● Approved',
-    statusBadge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    statusBadge: 'bg-emerald-950/80 text-emerald-300 border-emerald-800',
     notes: 'Medical consultation certificate submitted and validated.',
   },
   {
@@ -124,16 +125,16 @@ const INITIAL_EMPLOYEE_ACTIVITIES = [
     dates: 'Aug 18',
     duration: '1.0 Day',
     status: '● Approved',
-    statusBadge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    statusBadge: 'bg-emerald-950/80 text-emerald-300 border-emerald-800',
     notes: 'Personal administrative appointment.',
   },
 ];
 
 const INITIAL_WORKFORCE_OVERVIEW = [
-  { dept: 'Platform Engineering', headcount: '72 (Demo)', status: '● Normal', statusColor: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
-  { dept: 'DevOps & Infrastructure', headcount: '54 (Demo)', status: '● Normal', statusColor: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
-  { dept: 'Frontend Core', headcount: '48 (Demo)', status: '● Moderate', statusColor: 'text-amber-700 bg-amber-50 border-amber-200' },
-  { dept: 'Operations & HR', headcount: '12 (Demo)', status: '● Normal', statusColor: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
+  { dept: 'Platform Engineering', headcount: '72 (Demo)', status: '● Normal', statusColor: 'text-emerald-400 bg-emerald-950/80 border-emerald-800' },
+  { dept: 'DevOps & Infrastructure', headcount: '54 (Demo)', status: '● Normal', statusColor: 'text-emerald-400 bg-emerald-950/80 border-emerald-800' },
+  { dept: 'Frontend Core', headcount: '48 (Demo)', status: '● Moderate', statusColor: 'text-amber-300 bg-amber-950/80 border-amber-800' },
+  { dept: 'Operations & HR', headcount: '12 (Demo)', status: '● Normal', statusColor: 'text-emerald-400 bg-emerald-950/80 border-emerald-800' },
 ];
 
 const INITIAL_ACTIVITY_STREAM = [
@@ -163,6 +164,7 @@ const RoleConsolesSection = () => {
   const [employeeActivities, setEmployeeActivities] = useState(INITIAL_EMPLOYEE_ACTIVITIES);
   const [employeeBalance] = useState(18);
   const [employeePendingCount] = useState(1);
+  const [isEmployeeFlowModalOpen, setIsEmployeeFlowModalOpen] = useState(false);
 
   // Admin / HR interactive state (Read-Only Demo)
   const [isAdminReportsOpen, setIsAdminReportsOpen] = useState(false);
@@ -183,13 +185,14 @@ const RoleConsolesSection = () => {
       if (e.key === 'Escape') {
         setSelectedRequest(null);
         setIsAdminReportsOpen(false);
+        setIsEmployeeFlowModalOpen(false);
       }
     };
-    if (selectedRequest || isAdminReportsOpen) {
+    if (selectedRequest || isAdminReportsOpen || isEmployeeFlowModalOpen) {
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedRequest, isAdminReportsOpen]);
+  }, [selectedRequest, isAdminReportsOpen, isEmployeeFlowModalOpen]);
 
   // Command Center Role Preview listener
   useEffect(() => {
@@ -209,19 +212,24 @@ const RoleConsolesSection = () => {
     setActivityFeed(INITIAL_ACTIVITY_STREAM);
     setSelectedRequest(null);
     setIsAdminReportsOpen(false);
+    setIsEmployeeFlowModalOpen(false);
   };
 
   return (
     <section
       id="product-experience"
       ref={sectionRef}
-      className="w-full py-16 sm:py-20 bg-slate-50/70 relative border-b border-slate-200/80 overflow-hidden"
+      className="w-full py-20 sm:py-24 bg-[#030712] relative border-b border-slate-800/80 overflow-hidden text-slate-100"
     >
       {/* Anchor for backward compatibility with #roles */}
       <div id="roles" className="absolute -top-20 pointer-events-none" aria-hidden="true" />
 
-      {/* Background Architectural Depth */}
-      <div className="absolute inset-0 bg-enterprise-grid [mask-image:radial-gradient(ellipse_60%_50%_at_50%_45%,#000_65%,transparent_100%)] pointer-events-none opacity-30" />
+      {/* 1. Subtle Architectural Grid Texture */}
+      <div className="absolute inset-0 bg-enterprise-dark-grid [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,#000_60%,transparent_100%)] pointer-events-none opacity-60" />
+
+      {/* 2. Ambient Atmospheric Lighting Glow */}
+      <div className="absolute top-1/4 left-10 w-[35rem] h-[35rem] bg-sky-600/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-[35rem] h-[35rem] bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Centered Responsive Container */}
       <div className="relative z-10 w-[calc(100%-32px)] sm:w-[calc(100%-48px)] max-w-[1280px] mx-auto">
@@ -230,31 +238,36 @@ const RoleConsolesSection = () => {
         {/* SECTION HEADER                                                   */}
         {/* ================================================================ */}
         <div
-          className={`flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 sm:mb-12 transition-all duration-500 ease-out ${
+          className={`flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-14 transition-all duration-700 ease-out ${
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 font-mono text-xs text-brand-700 font-bold uppercase tracking-wider mb-2.5">
-              <Layers className="w-4 h-4 text-brand-700" />
-              <span>PRODUCT EXPERIENCE</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900/90 border border-slate-700/80 shadow-xs mb-3.5 backdrop-blur-md">
+              <Layers className="w-3.5 h-3.5 text-sky-400" />
+              <span className="font-mono text-xs font-bold text-sky-400 uppercase tracking-wider">
+                PRODUCT EXPERIENCE
+              </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-black text-white tracking-[-0.03em] leading-[1.12]">
               One workforce. Three connected perspectives.
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed font-normal">
-              Give employees, managers, and HR teams the tools they need to manage workforce operations from one connected workspace.
+            <p className="text-sm sm:text-base text-slate-300 mt-3 leading-relaxed font-normal">
+              See how employees, managers, and HR teams interact with the same connected leave management system. Give employees, managers, and HR teams the tools they need to manage workforce operations from one connected workspace.
             </p>
           </div>
 
           {/* Badges: READ-ONLY DEMO PREVIEW • DEMO DATA • NO REAL EMPLOYEE INFORMATION */}
-          <div className="flex flex-wrap items-center gap-2 self-start md:self-auto shrink-0 font-mono text-[10px]">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-bold shadow-2xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
+          <div className="flex flex-wrap items-center gap-2.5 self-start md:self-auto shrink-0 font-mono text-[10px]">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700 text-sky-300 font-bold shadow-xs backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
+              INTERACTIVE PRODUCT PREVIEW
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300 font-bold shadow-xs backdrop-blur-md">
               READ-ONLY DEMO PREVIEW
             </span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 font-semibold shadow-2xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950/80 border border-amber-800/80 text-amber-300 font-semibold shadow-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
               DEMO DATA • NO REAL EMPLOYEE INFORMATION
             </span>
           </div>
@@ -264,14 +277,14 @@ const RoleConsolesSection = () => {
         {/* ROLE SWITCHER SEGMENTED CONTROL                                  */}
         {/* ================================================================ */}
         <div
-          className={`flex justify-center mb-6 sm:mb-8 transition-all duration-500 ease-out ${
+          className={`flex justify-center mb-8 sm:mb-10 transition-all duration-700 ease-out ${
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
           <div
             role="tablist"
             aria-label="Workforce Role Switcher"
-            className="inline-flex w-full sm:w-auto p-1.5 bg-slate-200/70 rounded-xl border border-slate-300/70 shadow-2xs gap-1"
+            className="inline-flex w-full sm:w-auto p-1.5 bg-slate-950/90 rounded-2xl border border-slate-800/90 shadow-xl backdrop-blur-xl gap-1.5"
           >
             {ROLES.map((r) => {
               const isActive = selectedRoleId === r.id;
@@ -285,13 +298,13 @@ const RoleConsolesSection = () => {
                   aria-pressed={isActive}
                   type="button"
                   onClick={() => setSelectedRoleId(r.id)}
-                  className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2 rounded-lg text-xs font-mono font-bold tracking-wider transition-all duration-200 cursor-pointer select-none ${
+                  className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2.5 px-5 sm:px-7 py-2.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 cursor-pointer select-none ${
                     isActive
-                      ? 'bg-white text-brand-800 shadow-xs border border-slate-200/80 ring-2 ring-brand-500/15 translate-y-[-1px]'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                      ? 'bg-sky-500 text-white shadow-lg shadow-sky-900/40 border border-sky-400/40 ring-1 ring-sky-400/30 -translate-y-0.5'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/80'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-brand-600' : 'text-slate-400'}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
                   <span>{r.fullLabel}</span>
                 </button>
               );
@@ -303,14 +316,20 @@ const RoleConsolesSection = () => {
         {/* PRODUCT WORKSPACE FRAME                                          */}
         {/* ================================================================ */}
         <div
-          className={`rounded-2xl bg-white border border-slate-200/90 shadow-md transition-all duration-500 ease-out overflow-hidden ${
+          className={`rounded-2xl bg-[#090e1a]/95 border border-slate-800/90 shadow-2xl backdrop-blur-xl transition-all duration-700 ease-out overflow-hidden relative ${
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
           }`}
         >
-          {/* Top Frame Bar: ELMS Workspace & Live Operational Status */}
-          <div className="px-4 sm:px-6 py-3.5 bg-slate-900 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800">
+          {/* Decorative Window Controls & Top Frame Bar */}
+          <div className="px-5 sm:px-7 py-3.5 bg-slate-950 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/90">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-brand-600 border border-brand-400 flex items-center justify-center font-mono font-bold text-xs text-white shadow-2xs">
+              {/* Decorative Window Control Dots */}
+              <div className="flex items-center gap-1.5 mr-1 pointer-events-none" aria-hidden="true">
+                <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block" />
+              </div>
+              <div className="w-7 h-7 rounded-lg bg-sky-600 border border-sky-400/50 flex items-center justify-center font-mono font-bold text-xs text-white shadow-xs">
                 ELMS
               </div>
               <div>
@@ -318,8 +337,8 @@ const RoleConsolesSection = () => {
                   <span className="text-xs sm:text-sm font-bold tracking-tight">
                     ELMS WORKSPACE
                   </span>
-                  <span className="font-mono text-[9px] text-slate-400 border border-slate-700 bg-slate-800/80 px-1.5 py-0.2 rounded">
-                    v2.4
+                  <span className="font-mono text-[9px] text-slate-400 border border-slate-800 bg-slate-900 px-1.5 py-0.2 rounded">
+                    ● PRODUCT PREVIEW
                   </span>
                 </div>
                 <span className="font-mono text-[10px] text-slate-400 block">
@@ -329,39 +348,38 @@ const RoleConsolesSection = () => {
             </div>
 
             <div className="flex items-center gap-3 self-start sm:self-auto font-mono text-[10px]">
-              {/* Live Operational Status */}
               <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-950/80 border border-emerald-800/70 text-emerald-300">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="font-bold">SYSTEM OPERATIONAL</span>
               </div>
-              <span className="text-slate-500 hidden md:inline">•</span>
-              <span className="text-slate-400 hidden md:inline">DEMO MODE</span>
+              <span className="text-slate-600 hidden md:inline">•</span>
+              <span className="text-sky-300 font-semibold hidden md:inline">SIMULATED DATA</span>
             </div>
           </div>
 
-          {/* Subheader: Role Subtitle & Synchronized Indicator */}
-          <div className="px-4 sm:px-6 py-2.5 bg-slate-50/90 border-b border-slate-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+          {/* Subheader Bar */}
+          <div className="px-5 sm:px-7 py-2.5 bg-slate-950/60 border-b border-slate-800/70 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-slate-800">
+              <span className="font-bold text-white">
                 {currentRole.viewTitle}
               </span>
-              <span className="inline-flex items-center gap-1 font-mono text-[9px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span className="inline-flex items-center gap-1 font-mono text-[9px] font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 <span>DEMO DATA • READ-ONLY PREVIEW</span>
               </span>
             </div>
 
-            <div className="font-mono text-[10px] text-slate-500 flex items-center gap-2">
-              <span>Tenant: Example Organization (Demo)</span>
+            <div className="font-mono text-[10px] text-slate-400 flex items-center gap-2">
+              <span>DEMO WORKSPACE</span>
               <span>•</span>
-              <span className="text-brand-700 font-semibold">Row-Level Isolated</span>
+              <span className="text-sky-400 font-semibold">Row-Level Isolated</span>
             </div>
           </div>
 
           {/* ============================================================== */}
           {/* MAIN WORKSPACE CONTENT AREA                                    */}
           {/* ============================================================== */}
-          <div className="p-4 sm:p-6 lg:p-7 space-y-6">
+          <div className="p-5 sm:p-7 space-y-6">
 
             {/* ============================================================ */}
             {/* 1. EMPLOYEE VIEW                                             */}
@@ -369,109 +387,166 @@ const RoleConsolesSection = () => {
             {selectedRoleId === 'employee' && (
               <div className="space-y-6 animate-fadeIn duration-200">
                 {/* Greeting & Header Toolbar */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800/80">
                   <div>
-                    <span className="font-mono text-xs text-brand-700 font-bold uppercase tracking-wider block">
-                      EMPLOYEE WORKSPACE • DEMO DATA
-                    </span>
-                    <h3 className="text-lg font-bold text-slate-900 mt-0.5">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-xs text-sky-400 font-bold uppercase tracking-wider block">
+                        EMPLOYEE WORKSPACE • DEMO DATA
+                      </span>
+                      <span className="font-mono text-[9px] text-slate-400 bg-slate-900 border border-slate-800 px-1.5 py-0.2 rounded">
+                        DEMO USER
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold text-white mt-1">
                       Employee Self-Service (Demo Preview)
                     </h3>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-400">
                       Illustrative employee leave balance tracking and scheduled absence timeline. (Read-only demo)
                     </p>
                   </div>
 
-                  <Link
-                    to="/login"
-                    aria-label="Sign In to Apply"
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer self-start sm:self-auto"
-                  >
-                    <Lock className="w-3.5 h-3.5 text-blue-200" />
-                    <span>SIGN IN TO APPLY</span>
-                  </Link>
+                  <div className="flex flex-wrap items-center gap-2.5 self-start sm:self-auto">
+                    <button
+                      type="button"
+                      onClick={() => setIsEmployeeFlowModalOpen(true)}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-850 text-sky-300 text-xs font-semibold border border-slate-700 shadow-xs transition-colors cursor-pointer"
+                    >
+                      <Play className="w-3.5 h-3.5 text-sky-400 fill-sky-400" />
+                      <span>PREVIEW REQUEST FLOW</span>
+                    </button>
+
+                    <Link
+                      to="/login"
+                      aria-label="Sign In to Apply"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-700 hover:bg-brand-600 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+                    >
+                      <Lock className="w-3.5 h-3.5 text-sky-200" />
+                      <span>SIGN IN TO APPLY</span>
+                    </Link>
+                  </div>
                 </div>
 
-                {/* Employee Key KPI Cards: Leave Balance / Pending Requests / Upcoming Leave */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {/* Card 1: Leave Balance */}
-                  <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/80 shadow-2xs">
+                {/* Employee Key KPI Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                  {/* Card 1: LEAVE BALANCE */}
+                  <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 shadow-2xs">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-mono text-[10px] text-slate-500 uppercase tracking-wider block">
-                        Leave Balance
+                      <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider block">
+                        LEAVE BALANCE
                       </span>
-                      <span className="font-mono text-[9px] text-brand-700 bg-brand-50 border border-brand-200 px-1.5 py-0.2 rounded font-semibold">
+                      <span className="font-mono text-[9px] text-sky-300 bg-sky-950/80 border border-sky-800 px-1.5 py-0.2 rounded font-semibold">
                         Available Annual
                       </span>
                     </div>
-                    <div className="text-2xl font-bold text-slate-900 font-mono tracking-tight">
+                    <div className="text-2xl font-bold text-white font-mono tracking-tight">
                       {employeeBalance} days
                     </div>
-                    <span className="font-mono text-[10px] text-slate-500 block mt-1">
+                    <span className="font-mono text-[10px] text-slate-400 block mt-1">
                       18 days • 1.67d / mo accrual
                     </span>
                   </div>
 
-                  {/* Card 2: Pending Requests */}
-                  <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/80 shadow-2xs">
+                  {/* Card 2: PENDING REQUESTS */}
+                  <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 shadow-2xs">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-mono text-[10px] text-slate-500 uppercase tracking-wider block">
+                      <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider block">
                         Pending Requests
                       </span>
-                      <span className="font-mono text-[9px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.2 rounded">
+                      <span className="font-mono text-[9px] font-bold text-amber-300 bg-amber-950/80 border border-amber-800 px-1.5 py-0.2 rounded">
                         DEMO
                       </span>
                     </div>
-                    <div className="text-2xl font-bold text-amber-700 font-mono tracking-tight">
-                      {employeePendingCount}
+                    <div className="text-2xl font-bold text-amber-400 font-mono tracking-tight">
+                      02
                     </div>
-                    <span className="font-mono text-[10px] text-slate-500 block mt-1">
-                      Under manager review
+                    <span className="font-mono text-[10px] text-slate-400 block mt-1">
+                      Pending Requests ({employeePendingCount})
                     </span>
                   </div>
 
-                  {/* Card 3: Upcoming Leave */}
-                  <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/80 shadow-2xs">
-                    <span className="font-mono text-[10px] text-slate-500 uppercase tracking-wider block mb-1">
-                      Upcoming Leave
+                  {/* Card 3: UPCOMING LEAVE */}
+                  <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 shadow-2xs">
+                    <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider block mb-1">
+                      UPCOMING LEAVE
                     </span>
-                    <div className="text-xl font-bold text-slate-900 font-mono tracking-tight">
-                      Dec 24 → Dec 29
+                    <div className="text-lg font-bold text-white font-mono tracking-tight">
+                      DEC 24 → DEC 29
                     </div>
-                    <span className="font-mono text-[10px] text-emerald-600 block mt-1">
+                    <span className="font-mono text-[10px] text-emerald-400 block mt-1">
                       Annual Leave • 5.0 Days
+                    </span>
+                  </div>
+
+                  {/* Card 4: WORKFLOW STATUS */}
+                  <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 shadow-2xs">
+                    <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider block mb-1">
+                      WORKFLOW STATUS
+                    </span>
+                    <div className="text-sm font-bold text-sky-400 font-mono tracking-tight mt-1">
+                      1 REQUEST IN REVIEW
+                    </div>
+                    <span className="font-mono text-[10px] text-slate-400 block mt-1">
+                      Under manager review
                     </span>
                   </div>
                 </div>
 
+                {/* Read-Only Mini Timeline & Leave Activity */}
+                <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800/80 mb-4">
+                  <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-3 pb-2 border-b border-slate-800/80">
+                    <span className="uppercase font-bold text-slate-200 flex items-center gap-2">
+                      <Activity className="w-3.5 h-3.5 text-sky-400" />
+                      <span>WORKFLOW TIMELINE (READ-ONLY)</span>
+                    </span>
+                    <span className="text-emerald-400 font-semibold">SIMULATED TIMELINE</span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs font-mono font-semibold py-2">
+                    <div className="flex items-center gap-2 text-sky-300">
+                      <span className="w-2 h-2 rounded-full bg-sky-400" />
+                      <span>REQUEST SUBMITTED</span>
+                    </div>
+                    <span className="text-slate-600">→</span>
+                    <div className="flex items-center gap-2 text-amber-300">
+                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                      <span>MANAGER REVIEW</span>
+                    </div>
+                    <span className="text-slate-600">→</span>
+                    <div className="flex items-center gap-2 text-emerald-400">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                      <span>RECORD & SYNC</span>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Recent Activity List */}
-                <div className="rounded-xl border border-slate-200/80 overflow-hidden bg-white shadow-2xs">
-                  <div className="bg-slate-100/80 px-4 py-2.5 border-b border-slate-200/80 flex items-center justify-between text-[10px] font-mono font-semibold text-slate-600 uppercase tracking-wider">
+                <div className="rounded-xl border border-slate-800/90 overflow-hidden bg-slate-950/90 shadow-2xs">
+                  <div className="bg-slate-900/90 px-4 py-2.5 border-b border-slate-800/80 flex items-center justify-between text-[10px] font-mono font-semibold text-slate-300 uppercase tracking-wider">
                     <span>Recent Activity (Demo)</span>
                     <span>Status</span>
                   </div>
-                  <div className="divide-y divide-slate-100">
+                  <div className="divide-y divide-slate-800/80">
                     {employeeActivities.map((act) => (
                       <div
                         key={act.id}
-                        className="px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors"
+                        className="px-4 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-slate-900/50 transition-colors"
                       >
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-slate-900 text-xs sm:text-sm">
+                            <span className="font-bold text-white text-xs sm:text-sm">
                               {act.type}
                             </span>
-                            <span className="font-mono text-[10px] text-slate-500 bg-slate-100 px-1.5 py-0.2 rounded border border-slate-200">
+                            <span className="font-mono text-[10px] text-sky-300 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
                               {act.dates}
                             </span>
                           </div>
-                          <div className="font-mono text-[11px] text-slate-500 mt-0.5">
+                          <div className="font-mono text-[11px] text-slate-400 mt-0.5">
                             {act.duration} • {act.notes}
                           </div>
                         </div>
 
                         <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
-                          <span className={`font-mono text-[9px] font-bold px-2 py-0.5 rounded border uppercase ${act.statusBadge}`}>
+                          <span className={`font-mono text-[9px] font-bold px-2.5 py-0.5 rounded border uppercase ${act.statusBadge}`}>
                             {act.status}
                           </span>
                         </div>
@@ -488,120 +563,137 @@ const RoleConsolesSection = () => {
             {selectedRoleId === 'manager' && (
               <div className="space-y-6 animate-fadeIn duration-200">
                 {/* Header Subtitle */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3.5 border-b border-slate-800/80">
                   <div>
-                    <span className="font-mono text-xs text-brand-700 font-bold uppercase tracking-wider block">
+                    <span className="font-mono text-xs text-sky-400 font-bold uppercase tracking-wider block">
                       MANAGER TEAM GOVERNANCE
                     </span>
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs text-slate-300 font-medium block mt-0.5">
                       Team Absence Ledger & Approval Queue • Real-time staffing quorum validation
                     </span>
                   </div>
-                  <span className="font-mono text-[10px] text-slate-500">
-                    Department: Platform Engineering (Demo)
+                  <span className="font-mono text-[10px] text-slate-400 bg-slate-900 border border-slate-800 px-2 py-0.5 rounded">
+                    DEMO WORKSPACE
                   </span>
                 </div>
 
-                {/* 3 Interactive KPI Cards: Team Quorum / Pending Approvals / Team Active On Leave */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {/* Card 1: Team Quorum */}
-                  <div className="p-4 rounded-xl bg-slate-50/90 border border-slate-200/80 shadow-2xs cursor-default">
+                {/* 3 Interactive KPI Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                  {/* Card 1: TEAM QUORUM */}
+                  <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800/80 shadow-2xs">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-mono text-[10px] text-slate-500 uppercase tracking-wide font-semibold block">
+                      <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wide font-semibold block">
                         CURRENT TEAM QUORUM
                       </span>
-                      <span className="font-mono text-[9px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded">
-                        {quorum >= 80 ? 'SAFE' : 'ATTENTION'}
+                      <span className="font-mono text-[9px] font-bold text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-1.5 py-0.2 rounded">
+                        SAFE
                       </span>
                     </div>
-                    <div className="text-2xl font-bold text-slate-900 font-mono tracking-tight">
-                      {quorum}% Safe
+                    <div className="text-2xl font-bold text-white font-mono tracking-tight">
+                      94% Safe
                     </div>
-                    <div className="font-mono text-[10px] text-slate-500 mt-1 flex flex-wrap items-center gap-1.5">
-                      <span>{activeStaff} of {totalStaff} staff active</span>
-                      <span>•</span>
-                      <span>{activeStaff} / {totalStaff} staff active</span>
+                    <div className="font-mono text-[10px] text-slate-400 mt-1 flex flex-wrap items-center gap-1.5">
+                      <span>17 of 18 staff active</span>
                     </div>
-                    <div className="w-full h-1.5 bg-slate-200/80 rounded-full overflow-hidden mt-3">
+                    <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden mt-3 border border-slate-800">
                       <div
-                        className="h-full bg-emerald-500 rounded-full transition-all duration-500 ease-out"
+                        className="h-full bg-emerald-400 rounded-full transition-all duration-500 ease-out"
                         style={{ width: `${quorum}%` }}
                       />
                     </div>
                   </div>
 
-                  {/* Card 2: Pending Approvals */}
-                  <div className="p-4 rounded-xl bg-slate-50/90 border border-slate-200/80 shadow-2xs">
+                  {/* Card 2: REQUESTS IN REVIEW & PENDING APPROVALS */}
+                  <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800/80 shadow-2xs">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-mono text-[10px] text-slate-500 uppercase tracking-wide font-semibold block">
+                      <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wide font-semibold block">
                         PENDING APPROVALS
                       </span>
-                      <span className="font-mono text-[9px] font-semibold text-brand-700 bg-brand-50 border border-brand-200 px-1.5 py-0.2 rounded flex items-center gap-1">
+                      <span className="font-mono text-[9px] font-semibold text-sky-300 bg-sky-950/80 border border-sky-800 px-1.5 py-0.2 rounded flex items-center gap-1">
                         <Clock className="w-2.5 h-2.5" />
                         <span>QUEUE ACTIVE</span>
                       </span>
                     </div>
-                    <div className="text-2xl font-bold text-brand-700 font-mono tracking-tight">
+                    <div className="text-2xl font-bold text-sky-400 font-mono tracking-tight">
                       {pendingApprovalsCount} {pendingApprovalsCount === 1 ? 'Request' : 'Requests'}
                     </div>
-                    <span className="font-mono text-[10px] text-slate-500 block mt-1">
-                      Pending Approvals: {pendingApprovalsCount}
+                    <span className="font-mono text-[10px] text-slate-400 block mt-1">
+                      Under manager review
                     </span>
-                    <div className="w-full h-1.5 bg-brand-100/70 rounded-full overflow-hidden mt-3">
+                    <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden mt-3 border border-slate-800">
                       <div
-                        className="h-full bg-brand-500 rounded-full transition-all duration-500 ease-out"
+                        className="h-full bg-sky-400 rounded-full transition-all duration-500 ease-out"
                         style={{ width: `${Math.min(100, pendingApprovalsCount * 50)}%` }}
                       />
                     </div>
                   </div>
 
-                  {/* Card 3: Team Active On Leave */}
-                  <div className="p-4 rounded-xl bg-slate-50/90 border border-slate-200/80 shadow-2xs">
+                  {/* Card 3: ACTIVE LEAVE */}
+                  <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800/80 shadow-2xs">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-mono text-[10px] text-slate-500 uppercase tracking-wide font-semibold block">
+                      <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wide font-semibold block">
                         TEAM ACTIVE ON LEAVE
                       </span>
-                      <span className="font-mono text-[9px] font-bold text-sky-700 bg-sky-50 border border-sky-200 px-1.5 py-0.2 rounded">
+                      <span className="font-mono text-[9px] font-bold text-sky-300 bg-sky-950/80 border border-sky-800 px-1.5 py-0.2 rounded">
                         NOMINAL
                       </span>
                     </div>
-                    <div className="text-2xl font-bold text-slate-900 font-mono tracking-tight">
+                    <div className="text-2xl font-bold text-white font-mono tracking-tight">
                       {onLeaveCount} {onLeaveCount === 1 ? 'Member' : 'Members'}
                     </div>
-                    <span className="font-mono text-[10px] text-slate-500 block mt-1">
-                      Team Active On Leave: {onLeaveCount}
+                    <span className="font-mono text-[10px] text-slate-400 block mt-1">
+                      On approved leave
                     </span>
-                    <div className="w-full h-1.5 bg-slate-200/80 rounded-full overflow-hidden mt-3">
+                    <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden mt-3 border border-slate-800">
                       <div
-                        className="h-full bg-sky-500 rounded-full transition-all duration-500 ease-out"
+                        className="h-full bg-sky-400 rounded-full transition-all duration-500 ease-out"
                         style={{ width: `${Math.round((onLeaveCount / totalStaff) * 100)}%` }}
                       />
+                    </div>
+                  </div>
+
+                  {/* Card 4: ACTIVE STAFF */}
+                  <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800/80 shadow-2xs">
+                    <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wide font-semibold block mb-1">
+                      ACTIVE STAFF
+                    </span>
+                    <div className="text-2xl font-bold text-white font-mono tracking-tight">
+                      17 / 18
+                    </div>
+                    <span className="font-mono text-[10px] text-emerald-400 block mt-1">
+                      17 / 18 active • 94% Coverage
+                    </span>
+                    <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden mt-3 border border-slate-800">
+                      <div className="h-full bg-emerald-400 rounded-full w-[94%]" />
                     </div>
                   </div>
                 </div>
 
                 {/* Team Coverage Segmented Bar */}
-                <div className="p-3.5 rounded-xl bg-slate-50/70 border border-slate-200/80 shadow-2xs">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 shadow-2xs">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
+                      <span className="font-mono text-[10px] text-slate-300 uppercase tracking-wider font-semibold">
                         TEAM COVERAGE
                       </span>
-                      <span className="font-mono text-[10px] font-bold text-slate-800 bg-white px-2 py-0.5 rounded border border-slate-200 shadow-2xs">
-                        {activeStaff} / {totalStaff} active
+                      <span className="font-mono text-[10px] font-bold text-white bg-slate-900 px-2 py-0.5 rounded border border-slate-800 shadow-2xs">
+                        17 / 18 active
+                      </span>
+                      <span className="font-mono text-[9px] text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-1.5 py-0.2 rounded font-semibold">
+                        AVAILABLE 94%
                       </span>
                     </div>
-                    <div className="flex items-center gap-3 font-mono text-[10px] text-slate-500">
-                      <span className="inline-flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <div className="flex items-center gap-3 font-mono text-[10px] text-slate-400">
+                      <span className="inline-flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400" />
                         <span>Active ({activeStaff})</span>
                       </span>
-                      <span className="inline-flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-sky-500" />
+                      <span className="inline-flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-sky-400" />
                         <span>On Leave ({onLeaveCount})</span>
                       </span>
                       {pendingApprovalsCount > 0 && (
-                        <span className="inline-flex items-center gap-1">
+                        <span className="inline-flex items-center gap-1.5">
                           <span className="w-2 h-2 rounded-full bg-amber-400" />
                           <span>Pending ({pendingApprovalsCount})</span>
                         </span>
@@ -609,7 +701,7 @@ const RoleConsolesSection = () => {
                     </div>
                   </div>
 
-                  <div className="flex gap-1 h-3 sm:h-3.5 w-full">
+                  <div className="flex gap-1 h-3.5 w-full">
                     {Array.from({ length: totalStaff }).map((_, i) => {
                       const isActive = i < activeStaff;
                       const isOnLeave = !isActive && i < activeStaff + onLeaveCount;
@@ -619,25 +711,29 @@ const RoleConsolesSection = () => {
                           title={`Staff #${i + 1}: ${isActive ? 'Active on Duty' : isOnLeave ? 'On Approved Leave' : 'Pending Request'}`}
                           className={`flex-1 h-full rounded-xs transition-colors duration-300 ${
                             isActive
-                              ? 'bg-emerald-500'
+                              ? 'bg-emerald-400'
                               : isOnLeave
-                              ? 'bg-sky-500'
+                              ? 'bg-sky-400'
                               : 'bg-amber-400'
                           }`}
                         />
                       );
                     })}
                   </div>
+                  <div className="mt-2 text-[10px] font-mono text-slate-400 flex items-center justify-between">
+                    <span>Coverage preview • Minimum operational quorum threshold: 75%</span>
+                    <span className="text-sky-300 font-semibold">SIMULATED DATA</span>
+                  </div>
                 </div>
 
                 {/* Centerpiece Approval Queue Table (Read-Only Preview) */}
-                <div className="rounded-xl border border-slate-200/90 overflow-hidden bg-white shadow-2xs">
-                  <div className="bg-slate-100/80 px-4 py-2.5 border-b border-slate-200/80 flex items-center justify-between text-[10px] font-mono font-semibold text-slate-600 uppercase tracking-wider">
+                <div className="rounded-xl border border-slate-800/90 overflow-hidden bg-slate-950/90 shadow-2xs">
+                  <div className="bg-slate-900/90 px-4 py-3 border-b border-slate-800/80 flex items-center justify-between text-[10px] font-mono font-semibold text-slate-300 uppercase tracking-wider">
                     <span>APPROVAL QUEUE (READ-ONLY DEMO)</span>
-                    <span>Status & Protocol</span>
+                    <span className="text-amber-400">MANAGER REVIEW REQUIRED</span>
                   </div>
 
-                  <div className="divide-y divide-slate-100">
+                  <div className="divide-y divide-slate-800/80">
                     {managerRequests.map((req) => {
                       const isActionRequired = req.status === 'ACTION REQUIRED';
                       const isApproved = req.status === 'APPROVED';
@@ -645,31 +741,31 @@ const RoleConsolesSection = () => {
                       return (
                         <div
                           key={req.id}
-                          className="px-4 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/80 transition-colors"
+                          className="px-4 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-900/50 transition-colors"
                         >
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
-                              <span className="font-bold text-slate-900 text-xs sm:text-sm">
+                              <span className="font-bold text-white text-xs sm:text-sm">
                                 {req.name}
                               </span>
-                              <span className="font-mono text-[10px] text-slate-500 bg-slate-100 border border-slate-200 px-1.5 py-0.2 rounded">
+                              <span className="font-mono text-[10px] text-slate-400 bg-slate-900 border border-slate-800 px-1.5 py-0.2 rounded">
                                 {req.dept}
                               </span>
                             </div>
-                            <div className="font-mono text-[11px] text-slate-500 mt-0.5">
+                            <div className="font-mono text-[11px] text-slate-400 mt-0.5">
                               {req.dates} • {req.duration} • {req.type}
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+                          <div className="flex items-center gap-2.5 self-start sm:self-auto shrink-0">
                             {isActionRequired && (
-                              <span className="font-mono text-[10px] font-bold text-blue-700 bg-blue-50 border border-blue-200/90 px-2 py-0.5 rounded uppercase tracking-wider">
+                              <span className="font-mono text-[10px] font-bold text-sky-300 bg-sky-950/80 border border-sky-800/80 px-2.5 py-0.5 rounded uppercase tracking-wider">
                                 ACTION REQUIRED
                               </span>
                             )}
                             {isApproved && (
-                              <span className="font-mono text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/90 px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1">
-                                <Check className="w-3 h-3 text-emerald-600" />
+                              <span className="font-mono text-[10px] font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-800/80 px-2.5 py-0.5 rounded uppercase tracking-wider flex items-center gap-1">
+                                <Check className="w-3 h-3 text-emerald-400" />
                                 <span>APPROVED</span>
                               </span>
                             )}
@@ -679,10 +775,10 @@ const RoleConsolesSection = () => {
                                 type="button"
                                 aria-label="Inspect Protocol"
                                 onClick={() => setSelectedRequest(req)}
-                                className="inline-flex items-center gap-1 text-[11px] font-semibold text-brand-700 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 border border-brand-200 px-2.5 py-1 rounded-lg transition-all cursor-pointer shadow-2xs"
+                                className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-sky-300 hover:text-white bg-slate-900 hover:bg-slate-850 border border-slate-700 px-3 py-1.5 rounded-xl transition-all cursor-pointer shadow-xs"
                               >
-                                <FileText className="w-3 h-3 text-brand-600" />
-                                <span>INSPECT PROTOCOL →</span>
+                                <FileText className="w-3.5 h-3.5 text-sky-400" />
+                                <span>Inspect Protocol →</span>
                               </button>
                             )}
                           </div>
@@ -699,16 +795,21 @@ const RoleConsolesSection = () => {
             {/* ============================================================ */}
             {selectedRoleId === 'admin' && (
               <div className="space-y-6 animate-fadeIn duration-200">
-                {/* Header & Simulated Action Toolbar */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+                {/* Header Toolbar */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800/80">
                   <div>
-                    <span className="font-mono text-xs text-brand-700 font-bold uppercase tracking-wider block">
-                      ADMINISTRATION & HR CONSOLE
-                    </span>
-                    <h3 className="text-lg font-bold text-slate-900 mt-0.5">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-xs text-sky-400 font-bold uppercase tracking-wider block">
+                        ADMINISTRATION & HR CONSOLE
+                      </span>
+                      <span className="font-mono text-[9px] text-slate-400 bg-slate-900 border border-slate-800 px-1.5 py-0.2 rounded">
+                        DEMO ORGANIZATION
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold text-white mt-1">
                       Organization Overview (Demo Data)
                     </h3>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-400">
                       Global Statutory Policy & Audit Management across all tenant departments.
                     </p>
                   </div>
@@ -716,7 +817,7 @@ const RoleConsolesSection = () => {
                   <button
                     type="button"
                     onClick={() => setIsAdminReportsOpen(true)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer self-start sm:self-auto"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-700 hover:bg-brand-600 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer self-start sm:self-auto"
                   >
                     <BarChart3 className="w-3.5 h-3.5" />
                     <span>VIEW REPORTS →</span>
@@ -725,78 +826,141 @@ const RoleConsolesSection = () => {
 
                 {/* Organization Overview 5 Metrics Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                  <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 shadow-2xs">
-                    <span className="font-mono text-[9px] text-slate-500 uppercase tracking-wider block mb-1">
-                      Active Employees
+                  <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800/80 shadow-2xs">
+                    <span className="font-mono text-[9px] text-slate-400 uppercase tracking-wider block mb-1">
+                      ACTIVE EMPLOYEES
                     </span>
-                    <div className="text-xl font-bold text-slate-900 font-mono">250+ (DEMO)</div>
-                    <span className="font-mono text-[9px] text-slate-500">Global Headcount</span>
+                    <div className="text-xl font-bold text-white font-mono">250+ (DEMO)</div>
+                    <span className="font-mono text-[9px] text-slate-400">Global Headcount</span>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 shadow-2xs">
-                    <span className="font-mono text-[9px] text-slate-500 uppercase tracking-wider block mb-1">
-                      Departments
+                  <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800/80 shadow-2xs">
+                    <span className="font-mono text-[9px] text-slate-400 uppercase tracking-wider block mb-1">
+                      DEPARTMENTS
                     </span>
-                    <div className="text-xl font-bold text-slate-900 font-mono">12 (DEMO)</div>
-                    <span className="font-mono text-[9px] text-slate-500">Active Units</span>
+                    <div className="text-xl font-bold text-white font-mono">12 (DEMO)</div>
+                    <span className="font-mono text-[9px] text-slate-400">Active Units</span>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 shadow-2xs">
-                    <span className="font-mono text-[9px] text-slate-500 uppercase tracking-wider block mb-1">
-                      Pending Reviews
+                  <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800/80 shadow-2xs">
+                    <span className="font-mono text-[9px] text-slate-400 uppercase tracking-wider block mb-1">
+                      POLICY REVIEWS
                     </span>
-                    <div className="text-xl font-bold text-brand-700 font-mono">7 (DEMO)</div>
-                    <span className="font-mono text-[9px] text-slate-500">Across 4 divisions</span>
+                    <div className="text-xl font-bold text-sky-400 font-mono">7 (DEMO)</div>
+                    <span className="font-mono text-[9px] text-slate-400">Across 4 divisions</span>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 shadow-2xs">
-                    <span className="font-mono text-[9px] text-slate-500 uppercase tracking-wider block mb-1">
-                      Policy Status
+                  <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800/80 shadow-2xs">
+                    <span className="font-mono text-[9px] text-slate-400 uppercase tracking-wider block mb-1">
+                      POLICY STATUS
                     </span>
-                    <div className="text-sm font-bold text-emerald-700 font-mono mt-1 flex items-center gap-1">
+                    <div className="text-sm font-bold text-emerald-400 font-mono mt-1 flex items-center gap-1">
                       <span>● COMPLIANT</span>
                     </div>
-                    <span className="font-mono text-[9px] text-slate-500">Statutory Policies</span>
+                    <span className="font-mono text-[9px] text-slate-400">Statutory Policies</span>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 shadow-2xs col-span-2 sm:col-span-1">
-                    <span className="font-mono text-[9px] text-slate-500 uppercase tracking-wider block mb-1">
-                      Audit Events
+                  <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800/80 shadow-2xs col-span-2 sm:col-span-1">
+                    <span className="font-mono text-[9px] text-slate-400 uppercase tracking-wider block mb-1">
+                      AUDIT EVENTS
                     </span>
-                    <div className="text-xl font-bold text-emerald-700 font-mono">1,800+ (DEMO)</div>
-                    <span className="font-mono text-[9px] text-slate-500">100% Sealed</span>
+                    <div className="text-xl font-bold text-emerald-400 font-mono">1,800+ (DEMO)</div>
+                    <span className="font-mono text-[9px] text-slate-400">100% Sealed</span>
                   </div>
                 </div>
 
-                {/* Workforce Overview Table */}
-                <div className="rounded-xl border border-slate-200/90 overflow-hidden bg-white shadow-2xs">
-                  <div className="bg-slate-100/80 px-4 py-2.5 border-b border-slate-200/80 flex items-center justify-between text-[10px] font-mono font-semibold text-slate-600 uppercase tracking-wider">
-                    <span>WORKFORCE OVERVIEW (DEMO DATA)</span>
-                    <span>Staffing Balance</span>
+                {/* 3 Compact Admin Panels: Workforce Overview / Policy Overview / Operational Visibility */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                  {/* Panel A: Workforce Overview */}
+                  <div className="lg:col-span-6 rounded-xl border border-slate-800/90 overflow-hidden bg-slate-950/90 shadow-2xs">
+                    <div className="bg-slate-900/90 px-4 py-2.5 border-b border-slate-800/80 flex items-center justify-between text-[10px] font-mono font-semibold text-slate-300 uppercase tracking-wider">
+                      <span>WORKFORCE OVERVIEW (DEMO DATA)</span>
+                      <span>Staffing Balance</span>
+                    </div>
+
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-slate-900/60 text-slate-400 font-mono text-[10px] uppercase border-b border-slate-800/60">
+                        <tr>
+                          <th className="px-4 py-2 font-semibold">Department</th>
+                          <th className="px-4 py-2 font-semibold">Headcount</th>
+                          <th className="px-4 py-2 font-semibold text-right">Leave Status</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-800/80 font-mono text-[11px]">
+                        {INITIAL_WORKFORCE_OVERVIEW.map((item) => (
+                          <tr key={item.dept} className="hover:bg-slate-900/50 transition-colors">
+                            <td className="px-4 py-3 font-bold text-white">{item.dept}</td>
+                            <td className="px-4 py-3 text-slate-300">{item.headcount}</td>
+                            <td className="px-4 py-3 text-right">
+                              <span className={`px-2 py-0.5 rounded border text-[9px] font-bold uppercase ${item.statusColor}`}>
+                                {item.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
 
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-50/90 text-slate-500 font-mono text-[10px] uppercase border-b border-slate-200/60">
-                      <tr>
-                        <th className="px-4 py-2 font-semibold">Department</th>
-                        <th className="px-4 py-2 font-semibold">Headcount</th>
-                        <th className="px-4 py-2 font-semibold text-right">Leave Status</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 font-mono text-[11px]">
-                      {INITIAL_WORKFORCE_OVERVIEW.map((item) => (
-                        <tr key={item.dept} className="hover:bg-slate-50/80 transition-colors">
-                          <td className="px-4 py-3 font-bold text-slate-900">{item.dept}</td>
-                          <td className="px-4 py-3 text-slate-600">{item.headcount}</td>
-                          <td className="px-4 py-3 text-right">
-                            <span className={`px-2 py-0.5 rounded border text-[9px] font-bold uppercase ${item.statusColor}`}>
-                              {item.status}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  {/* Panel B: Policy Overview */}
+                  <div className="lg:col-span-3 p-4 rounded-xl bg-slate-950/90 border border-slate-800/90 shadow-2xs flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between pb-2 border-b border-slate-800/80 mb-3 text-[10px] font-mono font-bold">
+                        <span className="text-slate-300 uppercase tracking-wider">POLICY OVERVIEW</span>
+                        <span className="text-sky-400">ILLUSTRATIVE POLICY DATA</span>
+                      </div>
+                      <div className="space-y-2.5 font-mono text-[11px]">
+                        <div className="flex items-center justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                          <span className="text-slate-200">Annual Leave</span>
+                          <span className="text-emerald-400 font-bold bg-emerald-950/80 border border-emerald-800 px-1.5 py-0.2 rounded text-[9px]">
+                            ACTIVE
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                          <span className="text-slate-200">Sick Leave</span>
+                          <span className="text-emerald-400 font-bold bg-emerald-950/80 border border-emerald-800 px-1.5 py-0.2 rounded text-[9px]">
+                            ACTIVE
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                          <span className="text-slate-200">Optional Leave</span>
+                          <span className="text-amber-300 font-bold bg-amber-950/80 border border-amber-800 px-1.5 py-0.2 rounded text-[9px]">
+                            REVIEW
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pt-2 mt-3 border-t border-slate-800/80 font-mono text-[9px] text-slate-400">
+                      Illustrative Policy Data • Demo Rules
+                    </div>
+                  </div>
+
+                  {/* Panel C: Operational Visibility */}
+                  <div className="lg:col-span-3 p-4 rounded-xl bg-slate-950/90 border border-slate-800/90 shadow-2xs flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between pb-2 border-b border-slate-800/80 mb-3 text-[10px] font-mono font-bold">
+                        <span className="text-slate-300 uppercase tracking-wider">OPERATIONAL VISIBILITY</span>
+                        <span className="text-emerald-400">SIMULATED ACTIVITY</span>
+                      </div>
+                      <div className="space-y-2 font-mono text-[10px]">
+                        <div className="p-2 rounded bg-slate-900 border border-slate-800 text-slate-300 flex justify-between">
+                          <span>09:42 Policy config viewed</span>
+                          <span className="text-slate-500">Audit Log</span>
+                        </div>
+                        <div className="p-2 rounded bg-slate-900 border border-slate-800 text-slate-300 flex justify-between">
+                          <span>09:38 Leave report generated</span>
+                          <span className="text-slate-500">CSV Export</span>
+                        </div>
+                        <div className="p-2 rounded bg-slate-900 border border-slate-800 text-slate-300 flex justify-between">
+                          <span>09:31 Employee record reviewed</span>
+                          <span className="text-slate-500">Directory</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pt-2 mt-3 border-t border-slate-800/80 font-mono text-[9px] text-slate-400">
+                      Simulated Activity • Non-persistent Audit Demo
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -804,17 +968,17 @@ const RoleConsolesSection = () => {
             {/* ============================================================ */}
             {/* SHARED BOTTOM ACTIVITY STRIP                                 */}
             {/* ============================================================ */}
-            <div className="pt-4 border-t border-slate-100">
-              <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/70">
-                <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-200/50">
-                  <span className="font-mono text-[10px] text-slate-500 uppercase tracking-wider font-semibold flex items-center gap-1.5">
-                    <Activity className="w-3.5 h-3.5 text-brand-600" />
+            <div className="pt-4 border-t border-slate-800/80">
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80">
+                <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800/70">
+                  <span className="font-mono text-[10px] text-slate-300 uppercase tracking-wider font-bold flex items-center gap-2">
+                    <Activity className="w-3.5 h-3.5 text-sky-400" />
                     <span>SIMULATED ACTIVITY (DEMO)</span>
                   </span>
                   <button
                     type="button"
                     onClick={handleResetPreview}
-                    className="font-mono text-[9px] text-slate-500 hover:text-brand-700 flex items-center gap-1 cursor-pointer transition-colors"
+                    className="font-mono text-[9px] text-slate-400 hover:text-sky-300 flex items-center gap-1 cursor-pointer transition-colors"
                     title="Reset interactive demo state"
                   >
                     <RotateCcw className="w-3 h-3" />
@@ -822,10 +986,10 @@ const RoleConsolesSection = () => {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 font-mono text-[10px] text-slate-600">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 font-mono text-[10px] text-slate-300">
                   {activityFeed.slice(0, 3).map((act) => (
-                    <div key={act.id} className="flex items-center justify-between p-2 rounded-lg bg-white border border-slate-200/60 shadow-2xs">
-                      <span className="truncate text-slate-800 font-medium">{act.text}</span>
+                    <div key={act.id} className="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800 shadow-2xs">
+                      <span className="truncate text-white font-medium">{act.text}</span>
                       <span className="text-slate-400 shrink-0 ml-2">{act.time}</span>
                     </div>
                   ))}
@@ -834,15 +998,15 @@ const RoleConsolesSection = () => {
             </div>
 
             {/* Footer Sign-In Prompt */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 text-xs text-slate-600">
-              <span className="font-mono text-[10px] text-slate-500">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 text-xs text-slate-400">
+              <span className="font-mono text-[10px] text-slate-400">
                 Simulated interactive experience • No database records created or modified
               </span>
               <Link
                 to="/login"
-                className="inline-flex items-center gap-1.5 h-8 px-4 bg-brand-700 hover:bg-brand-800 text-white text-xs font-semibold rounded-lg transition-all shadow-2xs self-start sm:self-auto"
+                className="inline-flex items-center gap-2 h-8 px-4 bg-brand-700 hover:bg-brand-600 text-white text-xs font-semibold rounded-lg transition-all shadow-xs self-start sm:self-auto border border-sky-400/30"
               >
-                <Lock className="w-3 h-3 text-blue-200" />
+                <Lock className="w-3 h-3 text-sky-200" />
                 <span>Sign In to {currentRole.fullLabel}</span>
                 <ArrowRight className="w-3 h-3" />
               </Link>
@@ -859,23 +1023,23 @@ const RoleConsolesSection = () => {
             role="dialog"
             aria-modal="true"
             aria-labelledby="approval-modal-title"
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-fadeIn duration-200"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn duration-200"
             onClick={() => setSelectedRequest(null)}
           >
             <div
-              className="bg-white border border-slate-200 rounded-2xl shadow-xl max-w-lg w-full p-5 sm:p-6 overflow-hidden"
+              className="bg-[#090e1a] border border-slate-800 rounded-2xl shadow-2xl max-w-lg w-full p-5 sm:p-6 overflow-hidden text-slate-100"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700">
-                    <Clock className="w-3.5 h-3.5" />
+              <div className="flex items-center justify-between pb-3.5 border-b border-slate-800 mb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-sky-950 border border-sky-800 flex items-center justify-center text-sky-400">
+                    <Clock className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="font-mono text-[9px] text-brand-700 uppercase tracking-wider font-semibold block">
+                    <span className="font-mono text-[9px] text-sky-400 uppercase tracking-wider font-bold block">
                       REQUEST GOVERNANCE PROTOCOL PREVIEW
                     </span>
-                    <h4 id="approval-modal-title" className="text-sm font-bold text-slate-900 leading-tight">
+                    <h4 id="approval-modal-title" className="text-sm sm:text-base font-bold text-white leading-tight">
                       Leave Approval Protocol Inspection (Read-Only Demo)
                     </h4>
                   </div>
@@ -883,7 +1047,7 @@ const RoleConsolesSection = () => {
                 <button
                   type="button"
                   onClick={() => setSelectedRequest(null)}
-                  className="w-7 h-7 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
+                  className="w-7 h-7 rounded-lg hover:bg-slate-900 flex items-center justify-center text-slate-400 hover:text-white transition-colors cursor-pointer border border-slate-800"
                   aria-label="Close modal"
                 >
                   <X className="w-4 h-4" />
@@ -892,70 +1056,70 @@ const RoleConsolesSection = () => {
 
               {/* Parameters Grid */}
               <div className="grid grid-cols-2 gap-3 mb-4 font-mono text-xs">
-                <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider block mb-0.5">
                     EMPLOYEE
                   </span>
-                  <span className="font-bold text-slate-900 block">{selectedRequest.name}</span>
-                  <span className="text-[10px] text-slate-500">{selectedRequest.dept}</span>
+                  <span className="font-bold text-white block">{selectedRequest.name}</span>
+                  <span className="text-[10px] text-slate-400">{selectedRequest.dept}</span>
                 </div>
 
-                <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider block mb-0.5">
                     REQUEST TYPE
                   </span>
-                  <span className="font-bold text-slate-900 block">{selectedRequest.type}</span>
-                  <span className="text-[10px] text-slate-500">{selectedRequest.duration}</span>
+                  <span className="font-bold text-white block">{selectedRequest.type}</span>
+                  <span className="text-[10px] text-slate-400">{selectedRequest.duration}</span>
                 </div>
 
-                <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider block mb-0.5">
                     DATES
                   </span>
-                  <span className="font-bold text-slate-900 block">{selectedRequest.dates}</span>
-                  <span className="text-[10px] text-slate-500">2025 Ledger Cycle</span>
+                  <span className="font-bold text-white block">{selectedRequest.dates}</span>
+                  <span className="text-[10px] text-slate-400">2025 Ledger Cycle</span>
                 </div>
 
-                <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider block mb-0.5">
                     TEAM COVERAGE
                   </span>
-                  <span className="font-bold text-emerald-700 block">{activeStaff} / {totalStaff} active</span>
-                  <span className="text-[10px] text-slate-500">Quorum {quorum}% Safe</span>
+                  <span className="font-bold text-emerald-400 block">{activeStaff} / {totalStaff} active</span>
+                  <span className="text-[10px] text-slate-400">Quorum {quorum}% Safe</span>
                 </div>
               </div>
 
               {/* Impact Card */}
-              <div className="p-3 rounded-lg bg-blue-50/60 border border-blue-100 text-xs mb-4">
-                <div className="flex items-center justify-between font-mono text-[10px] text-blue-900 font-bold mb-1">
+              <div className="p-3.5 rounded-xl bg-sky-950/60 border border-sky-800/80 text-xs mb-4">
+                <div className="flex items-center justify-between font-mono text-[10px] text-sky-300 font-bold mb-1">
                   <span>IMPACT ANALYSIS</span>
-                  <span className="text-emerald-700">LOW IMPACT</span>
+                  <span className="text-emerald-400">LOW IMPACT</span>
                 </div>
-                <p className="text-[11px] text-slate-700 leading-relaxed font-mono">
+                <p className="text-[11px] text-slate-300 leading-relaxed font-mono">
                   {selectedRequest.coverageInfo}. Impact: {selectedRequest.impact}.
                 </p>
               </div>
 
-              {/* Read-Only Notice Box (Strictly no approve/reject decision controls) */}
-              <div className="p-3 rounded-lg bg-amber-50/70 border border-amber-200/80 text-xs mb-4 font-mono">
-                <div className="flex items-center gap-1.5 text-[10px] font-bold text-amber-900 mb-1">
-                  <Shield className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+              {/* Read-Only Notice Box */}
+              <div className="p-3.5 rounded-xl bg-amber-950/70 border border-amber-800/80 text-xs mb-4 font-mono">
+                <div className="flex items-center gap-1.5 text-[10px] font-bold text-amber-300 mb-1">
+                  <Shield className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                   <span>READ-ONLY DEMO • DECISION CONTROLS RESTRICTED</span>
                 </div>
-                <p className="text-[11px] text-amber-800 leading-relaxed">
+                <p className="text-[11px] text-amber-200/90 leading-relaxed">
                   Approval and rejection authority is restricted to authenticated Line Managers inside the protected workspace. Visitors cannot perform operational actions on this demo preview.
                 </p>
               </div>
 
               {/* Action Buttons: CLOSE ONLY */}
-              <div className="flex items-center justify-between pt-3 border-t border-slate-100 font-mono text-xs">
+              <div className="flex items-center justify-between pt-3.5 border-t border-slate-800 font-mono text-xs">
                 <span className="text-[10px] text-slate-400">
                   DEMO DATA • NO REAL EMPLOYEE INFORMATION
                 </span>
                 <button
                   type="button"
                   onClick={() => setSelectedRequest(null)}
-                  className="px-4 py-2 font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
+                  className="px-4 py-2 font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer border border-slate-700"
                 >
                   CLOSE PREVIEW
                 </button>
@@ -972,23 +1136,23 @@ const RoleConsolesSection = () => {
             role="dialog"
             aria-modal="true"
             aria-labelledby="reports-modal-title"
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-fadeIn duration-200"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn duration-200"
             onClick={() => setIsAdminReportsOpen(false)}
           >
             <div
-              className="bg-white border border-slate-200 rounded-2xl shadow-xl max-w-lg w-full p-5 sm:p-6 overflow-hidden"
+              className="bg-[#090e1a] border border-slate-800 rounded-2xl shadow-2xl max-w-lg w-full p-5 sm:p-6 overflow-hidden text-slate-100"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-700">
-                    <FileText className="w-3.5 h-3.5" />
+              <div className="flex items-center justify-between pb-3.5 border-b border-slate-800 mb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-sky-950 border border-sky-800 flex items-center justify-center text-sky-400">
+                    <FileText className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="font-mono text-[9px] text-brand-700 uppercase tracking-wider font-semibold block">
+                    <span className="font-mono text-[9px] text-sky-400 uppercase tracking-wider font-bold block">
                       SIMULATED REPORT
                     </span>
-                    <h4 id="reports-modal-title" className="text-sm font-bold text-slate-900 leading-tight">
+                    <h4 id="reports-modal-title" className="text-sm sm:text-base font-bold text-white leading-tight">
                       Executive Workforce Analytics Digest (Demo)
                     </h4>
                   </div>
@@ -996,7 +1160,7 @@ const RoleConsolesSection = () => {
                 <button
                   type="button"
                   onClick={() => setIsAdminReportsOpen(false)}
-                  className="w-7 h-7 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
+                  className="w-7 h-7 rounded-lg hover:bg-slate-900 flex items-center justify-center text-slate-400 hover:text-white transition-colors cursor-pointer border border-slate-800"
                   aria-label="Close modal"
                 >
                   <X className="w-4 h-4" />
@@ -1005,48 +1169,143 @@ const RoleConsolesSection = () => {
 
               {/* 4 Report Metrics */}
               <div className="grid grid-cols-2 gap-3 mb-5 font-mono">
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-                  <span className="text-[10px] text-slate-500 uppercase tracking-wider block mb-1">
+                <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block mb-1">
                     Leave Utilization
                   </span>
-                  <div className="text-xl font-bold text-slate-900">72%</div>
+                  <div className="text-xl font-bold text-white">72%</div>
                   <span className="text-[9px] text-slate-400">Within optimal threshold</span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-                  <span className="text-[10px] text-slate-500 uppercase tracking-wider block mb-1">
+                <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block mb-1">
                     Policy Compliance
                   </span>
-                  <div className="text-xl font-bold text-emerald-700">98%</div>
+                  <div className="text-xl font-bold text-emerald-400">98%</div>
                   <span className="text-[9px] text-slate-400">Zero audit penalties</span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-                  <span className="text-[10px] text-slate-500 uppercase tracking-wider block mb-1">
+                <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block mb-1">
                     Pending Reviews
                   </span>
-                  <div className="text-xl font-bold text-brand-700">7 (DEMO)</div>
+                  <div className="text-xl font-bold text-sky-400">7 (DEMO)</div>
                   <span className="text-[9px] text-slate-400">Avg resolution 3.8 hrs</span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-                  <span className="text-[10px] text-slate-500 uppercase tracking-wider block mb-1">
+                <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block mb-1">
                     Audit Events
                   </span>
-                  <div className="text-xl font-bold text-emerald-700">1,800+ (DEMO)</div>
+                  <div className="text-xl font-bold text-emerald-400">1,800+ (DEMO)</div>
                   <span className="text-[9px] text-slate-400">SHA-256 ledger valid</span>
                 </div>
               </div>
 
-              <div className="p-3 rounded-lg bg-amber-50/70 border border-amber-200/80 text-[11px] text-amber-900 font-mono mb-5">
+              <div className="p-3.5 rounded-xl bg-amber-950/70 border border-amber-800/80 text-[11px] text-amber-300 font-mono mb-5">
                 Clearly labeled: SIMULATED REPORT • No backend or database requests are dispatched.
               </div>
 
-              <div className="flex items-center justify-end pt-3 border-t border-slate-100 font-mono text-xs">
+              <div className="flex items-center justify-end pt-3.5 border-t border-slate-800 font-mono text-xs">
                 <button
                   type="button"
                   onClick={() => setIsAdminReportsOpen(false)}
-                  className="px-4 py-2 font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
+                  className="px-4 py-2 font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer border border-slate-700"
+                >
+                  CLOSE
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ================================================================ */}
+        {/* MODAL 3: EMPLOYEE PREVIEW REQUEST FLOW MODAL                    */}
+        {/* ================================================================ */}
+        {isEmployeeFlowModalOpen && (
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="flow-modal-title"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn duration-200"
+            onClick={() => setIsEmployeeFlowModalOpen(false)}
+          >
+            <div
+              className="bg-[#090e1a] border border-slate-800 rounded-2xl shadow-2xl max-w-lg w-full p-5 sm:p-6 overflow-hidden text-slate-100"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between pb-3.5 border-b border-slate-800 mb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-sky-950 border border-sky-800 flex items-center justify-center text-sky-400">
+                    <Play className="w-4 h-4 fill-sky-400" />
+                  </div>
+                  <div>
+                    <span className="font-mono text-[9px] text-sky-400 uppercase tracking-wider font-bold block">
+                      SIMULATED WORKFLOW
+                    </span>
+                    <h4 id="flow-modal-title" className="text-sm sm:text-base font-bold text-white leading-tight">
+                      REQUEST FLOW PREVIEW
+                    </h4>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsEmployeeFlowModalOpen(false)}
+                  className="w-7 h-7 rounded-lg hover:bg-slate-900 flex items-center justify-center text-slate-400 hover:text-white transition-colors cursor-pointer border border-slate-800"
+                  aria-label="Close modal"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* 3 Step Workflow Steps */}
+              <div className="space-y-3 font-mono text-xs mb-5">
+                <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-lg bg-sky-950 border border-sky-800 text-sky-400 font-bold flex items-center justify-center shrink-0 text-[11px]">
+                    01
+                  </span>
+                  <div>
+                    <span className="font-bold text-white block">Step 01: Leave request created</span>
+                    <span className="text-[11px] text-slate-400 leading-relaxed block mt-0.5">
+                      Employee selects leave type, date range, and duration in self-service workspace.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-lg bg-amber-950 border border-amber-800 text-amber-400 font-bold flex items-center justify-center shrink-0 text-[11px]">
+                    02
+                  </span>
+                  <div>
+                    <span className="font-bold text-white block">Step 02: Manager review required</span>
+                    <span className="text-[11px] text-slate-400 leading-relaxed block mt-0.5">
+                      Request is routed to the designated line manager with automated team coverage pre-checks.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-lg bg-emerald-950 border border-emerald-800 text-emerald-400 font-bold flex items-center justify-center shrink-0 text-[11px]">
+                    03
+                  </span>
+                  <div>
+                    <span className="font-bold text-white block">Step 03: Decision recorded</span>
+                    <span className="text-[11px] text-slate-400 leading-relaxed block mt-0.5">
+                      Approved request transactionally adjusts balances and updates team calendar.
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-amber-950/70 border border-amber-800/80 text-[11px] text-amber-300 font-mono mb-5">
+                Clearly labeled: SIMULATED WORKFLOW • No API requests, database mutations, or backend data writes are dispatched.
+              </div>
+
+              <div className="flex items-center justify-end pt-3.5 border-t border-slate-800 font-mono text-xs">
+                <button
+                  type="button"
+                  onClick={() => setIsEmployeeFlowModalOpen(false)}
+                  className="px-4 py-2 font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer border border-slate-700"
                 >
                   CLOSE
                 </button>
