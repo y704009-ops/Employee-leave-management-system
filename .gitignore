@@ -41,3 +41,5 @@ database/aiven-schema.sql
 database/aiven-seed.sql
 fix-role-column.js
 run-seed.js
+
+backend/startup-error.txt
